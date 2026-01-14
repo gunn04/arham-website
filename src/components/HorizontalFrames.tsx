@@ -10,7 +10,7 @@ export default function HorizontalFrames() {
     { src: "/images/m5.webp" },
   ];
 
-  const loopImages = [...images, ...images];
+  const loopImages = [...images, ...images, ...images, ...images, ...images];
 
   const [isMobile, setIsMobile] = useState(false);
 
