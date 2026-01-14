@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 export default function HorizontalFrames() {
   const images = [
@@ -12,10 +12,24 @@ export default function HorizontalFrames() {
 
   const loopImages = [...images, ...images];
 
+  const trackRef = useRef<HTMLDivElement>(null);
+  const [distance, setDistance] = useState(0);
   const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
-    setIsMobile(window.innerWidth <= 768);
+    const check = () => {
+      setIsMobile(window.innerWidth <= 768);
+
+      if (trackRef.current) {
+        // width of ONE full image sequence
+        const full = trackRef.current.scrollWidth / 2;
+        setDistance(full);
+      }
+    };
+
+    check();
+    window.addEventListener("resize", check);
+    return () => window.removeEventListener("resize", check);
   }, []);
 
   return (
@@ -26,13 +40,13 @@ export default function HorizontalFrames() {
         <div className="absolute right-0 top-0 h-full w-10 bg-gradient-to-l from-black/70 to-transparent" />
       </div>
 
-      {/* 🔥 KEY forces remount → speed ACTUALLY changes */}
       <motion.div
-        key={isMobile ? "mobile" : "desktop"}
+        ref={trackRef}
+        key={isMobile ? "mobile" : "desktop"} // forces correct recalculation
         className="flex gap-6 will-change-transform"
-        animate={{ x: ["0%", "-50%"] }}
+        animate={{ x: [0, -distance] }}
         transition={{
-          duration: isMobile ? 6 : 26, // ✅ GROOVE SPEED
+          duration: isMobile ? 7 : 26, // 🔥 GROOVE MOBILE SPEED
           ease: "linear",
           repeat: Infinity,
         }}
@@ -40,12 +54,12 @@ export default function HorizontalFrames() {
         {loopImages.map((img, idx) => (
           <div
             key={idx}
-            className="w-[240px] md:w-[300px] h-[340px] md:h-[400px] rounded-2xl overflow-hidden bg-black flex-shrink-0"
+            className="w-[220px] md:w-[300px] aspect-[3/4] flex-shrink-0 rounded-2xl overflow-hidden"
           >
             <img
               src={img.src}
               alt=""
-              className="w-full h-full object-cover"
+              className="w-full h-full object-contain"
               draggable={false}
             />
           </div>
