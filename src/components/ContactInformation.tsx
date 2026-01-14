@@ -16,7 +16,7 @@ const ContactInformation = () => {
       icon: Mail,
       label: "EMAIL", 
       items: [
-        { text: "info@arhamdesignstudio.in", href: "info@arhamdesignstudio.in" }
+        { text: "info@arhamdesignstudio.in", href: "mailto:info@arhamdesignstudio.in" }
       ]
     },
     {
