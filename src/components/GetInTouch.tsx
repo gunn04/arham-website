@@ -48,21 +48,27 @@ export default function GetInTouch() {
             </div>
           </div>
 
-          {/* Email */}
-          <div className="flex items-start space-x-6">
-            <div className="w-12 h-12 bg-white/10 rounded-lg flex items-center justify-center">
-              <Mail className="w-6 h-6 text-white" />
-            </div>
-            <div>
-              <p className="text-white/60 text-sm uppercase mb-2">Email</p>
-              <a
-                href="mailto:info@arhamdesignstudio.in"
-                className="text-white text-lg"
-              >
-                info@arhamdesignstudio.in
-              </a>
-            </div>
-          </div>
+         {/* Email */}
+<div className="flex items-start space-x-6">
+  <div className="w-12 h-12 bg-white/10 rounded-lg flex items-center justify-center">
+    <Mail className="w-6 h-6 text-white" />
+  </div>
+
+  <div>
+    <p className="text-white/60 text-sm font-medium mb-2 tracking-wider uppercase">
+      EMAIL
+    </p>
+
+    <a
+      href="mailto:info@arhamdesignstudio.in"
+      className="text-white text-lg font-light tracking-wide transition-colors duration-300 hover:text-white/80"
+      style={{ fontFamily: "Inter, sans-serif" }}
+    >
+      info@arhamdesignstudio.in
+    </a>
+  </div>
+</div>
+
 
           {/* Location */}
           <div className="flex items-start space-x-6">
