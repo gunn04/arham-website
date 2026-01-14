@@ -72,7 +72,7 @@ const Contact = () => {
 
                 {/* Email */}
                 <InfoItem icon={Mail} label="Email">
-                  arhamdesignstudio05@gmail.com
+                  info@arhamdesignstudio.in
                 </InfoItem>
 
                 {/* Location */}

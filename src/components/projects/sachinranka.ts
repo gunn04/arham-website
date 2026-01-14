@@ -17,10 +17,17 @@ export const SachinRankaProject={
             title: "Living, Dining & Kitchen",
             description:
               "Open-plan living with premium finishes and seamless spatial flow.",
-            images: [{ src: "/images/ms-1.webp" },
-                     { src: "/images/ms-2.webp"},
-                     { src: "/images/ms-3.webp"},
-                     { src: "/images/ms-4.webp"},
+            images: [{ src: "/images/sliv1.webp" },
+                     { src: "/images/sliv2.webp"},
+                     { src: "/images/sliv3.webp"},
+                     { src: "/images/sliv4.webp"},
+                     { src: "/images/slliv5.webp"},
+                     { src: "/images/sliv6.webp"},
+                     { src: "/images/sliv7.webp"},
+                     { src: "/images/sliv8.webp"},
+                     { src: "/images/sliv9.webp"},
+                     { src: "/images/sliv10.webp"},
+                     
 
             ],
           },
