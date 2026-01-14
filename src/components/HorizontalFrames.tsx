@@ -32,7 +32,7 @@ export default function HorizontalFrames() {
         className="flex gap-6 will-change-transform"
         animate={{ x: ["0%", "-50%"] }}
         transition={{
-          duration: isMobile ? 6 : 26, // ✅ GROOVE SPEED
+          duration: isMobile ? 4 : 26, // ✅ GROOVE SPEED
           ease: "linear",
           repeat: Infinity,
         }}
