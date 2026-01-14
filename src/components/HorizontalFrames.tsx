@@ -3,19 +3,19 @@ import { useEffect, useState } from "react";
 
 export default function HorizontalFrames() {
   const images = [
-    { id: 1, src: "/images/m1.webp", alt: "Modern Living Room" },
-    { id: 2, src: "/images/m2.webp", alt: "Contemporary Kitchen" },
-    { id: 3, src: "/images/m3.webp", alt: "Luxury Bedroom" },
-    { id: 4, src: "/images/m4.webp", alt: "Office Space" },
-    { id: 5, src: "/images/m5.webp", alt: "Living Space" },
+    { src: "/images/m1.webp" },
+    { src: "/images/m2.webp" },
+    { src: "/images/m3.webp" },
+    { src: "/images/m4.webp" },
+    { src: "/images/m5.webp" },
   ];
 
   const loopImages = [...images, ...images];
-  const [duration, setDuration] = useState(26);
+
+  const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
-    const isMobile = window.innerWidth <= 768;
-    setDuration(isMobile ? 9 : 26); // ⭐ GROOVE SPEED
+    setIsMobile(window.innerWidth <= 768);
   }, []);
 
   return (
@@ -26,11 +26,13 @@ export default function HorizontalFrames() {
         <div className="absolute right-0 top-0 h-full w-10 bg-gradient-to-l from-black/70 to-transparent" />
       </div>
 
+      {/* 🔥 KEY forces remount → speed ACTUALLY changes */}
       <motion.div
-        className="flex gap-8 will-change-transform"
+        key={isMobile ? "mobile" : "desktop"}
+        className="flex gap-6 will-change-transform"
         animate={{ x: ["0%", "-50%"] }}
         transition={{
-          duration,
+          duration: isMobile ? 6 : 26, // ✅ GROOVE SPEED
           ease: "linear",
           repeat: Infinity,
         }}
@@ -38,11 +40,11 @@ export default function HorizontalFrames() {
         {loopImages.map((img, idx) => (
           <div
             key={idx}
-            className="w-[260px] md:w-[300px] h-[360px] md:h-[400px] rounded-2xl overflow-hidden bg-black flex-shrink-0"
+            className="w-[240px] md:w-[300px] h-[340px] md:h-[400px] rounded-2xl overflow-hidden bg-black flex-shrink-0"
           >
             <img
               src={img.src}
-              alt={img.alt}
+              alt=""
               className="w-full h-full object-cover"
               draggable={false}
             />
