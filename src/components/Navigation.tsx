@@ -66,9 +66,10 @@ const Navigation: React.FC<NavigationProps> = ({
               onClick={() => setMenuOpen(true)}
               className="flex flex-col gap-1.5 md:hidden"
             >
-              <span className="w-6 h-px bg-white"></span>
-              <span className="w-6 h-px bg-white"></span>
-              <span className="w-6 h-px bg-white"></span>
+              <span className="w-6 h-px bg-[#9FAE9A]"></span>
+              <span className="w-6 h-px bg-[#9FAE9A]"></span>
+              <span className="w-6 h-px bg-[#9FAE9A]"></span>
+
             </button>
 
             {/* LOGO */}
@@ -128,13 +129,14 @@ const Navigation: React.FC<NavigationProps> = ({
         <div className="flex justify-end p-6">
           <button
             onClick={() => setMenuOpen(false)}
-            className="text-white text-4xl"
+            className="text-[#9FAE9A] text-4xl"
           >
             ×
           </button>
         </div>
 
-        <nav className="flex flex-col gap-10 px-10 mt-24 text-white text-2xl font-light tracking-wide">
+        <nav className="flex flex-col gap-10 px-10 mt-24 text-[#9FAE9A] text-2xl font-light tracking-wide">
+
           {menuItems.map((item) => (
             <a
               key={item.label}
