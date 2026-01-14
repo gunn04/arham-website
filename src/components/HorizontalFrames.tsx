@@ -1,23 +1,20 @@
 import { motion } from "framer-motion";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function HorizontalFrames() {
   const images = [
-    "/images/m1.webp",
-    "/images/m2.webp",
-    "/images/m3.webp",
-    "/images/m4.webp",
-    "/images/m5.webp",
+    { src: "/images/m1.webp" },
+    { src: "/images/m2.webp" },
+    { src: "/images/m3.webp" },
+    { src: "/images/m4.webp" },
+    { src: "/images/m5.webp" },
   ];
 
-  const containerRef = useRef<HTMLDivElement>(null);
-  const [width, setWidth] = useState(0);
+  const loopImages = [...images, ...images];
+
   const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
-    if (containerRef.current) {
-      setWidth(containerRef.current.scrollWidth / 2);
-    }
     setIsMobile(window.innerWidth <= 768);
   }, []);
 
@@ -29,25 +26,26 @@ export default function HorizontalFrames() {
         <div className="absolute right-0 top-0 h-full w-10 bg-gradient-to-l from-black/70 to-transparent" />
       </div>
 
+      {/* 🔥 KEY forces remount → speed ACTUALLY changes */}
       <motion.div
-        ref={containerRef}
+        key={isMobile ? "mobile" : "desktop"}
         className="flex gap-6 will-change-transform"
-        animate={{ x: [-0, -width] }}
+        animate={{ x: ["0%", "-50%"] }}
         transition={{
-          duration: isMobile ? 6 : 26, // GROOVE SPEED
+          duration: isMobile ? 6 : 26, // ✅ GROOVE SPEED
           ease: "linear",
           repeat: Infinity,
         }}
       >
-        {[...images, ...images].map((src, idx) => (
+        {loopImages.map((img, idx) => (
           <div
             key={idx}
             className="w-[240px] md:w-[300px] h-[340px] md:h-[400px] rounded-2xl overflow-hidden bg-black flex-shrink-0"
           >
             <img
-              src={src}
+              src={img.src}
               alt=""
-              className="w-full h-full object-contain"
+              className="w-full h-full object-cover"
               draggable={false}
             />
           </div>
