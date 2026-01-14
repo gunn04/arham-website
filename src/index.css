@@ -115,10 +115,11 @@
 }
 
 /* Smooth transitions */
-* {
-  transition-property: all;
-  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+* .transition-smooth {
+  transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1),
+              opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1);
 }
+
 
 /* Enhanced scroll animations */
 @supports (scroll-behavior: smooth) {
@@ -130,6 +131,7 @@
 /* Prevent layout shift during animations */
 img {
   content-visibility: auto;
+  transform: translateZ(0);
 }
 /* --- Force the site-wide sage background --- */
 :root {
@@ -205,4 +207,33 @@ section {
 
 .scrollbar-hide::-webkit-scrollbar {
   display: none;
+}
+
+/* ===== Premium Horizontal Auto Scroll ===== */
+
+@keyframes horizontal-scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.auto-scroll {
+  display: flex;
+  width: max-content;
+  animation: horizontal-scroll 45s linear infinite;
+  will-change: transform;
+  transform: translateZ(0);
+}
+
+@media (max-width: 768px) {
+  .auto-scroll {
+    animation-duration: 60s; /* calmer on mobile */
+  }
+}
+
+.auto-scroll:hover {
+  animation-play-state: paused;
 }
