@@ -237,3 +237,15 @@ section {
 .auto-scroll:hover {
   animation-play-state: paused;
 }
+
+/* Faster horizontal scroll on mobile */
+@media (max-width: 768px) {
+  .auto-scroll {
+    animation-duration: 28s; /* 🔥 faster = smaller number */
+  }
+}
+@media (max-width: 768px) {
+  body {
+    overscroll-behavior: none;
+  }
+}

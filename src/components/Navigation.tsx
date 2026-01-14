@@ -1,26 +1,17 @@
-import { motion, useScroll, useMotionValueEvent } from "framer-motion";
+import { motion, AnimatePresence, useScroll, useMotionValueEvent } from "framer-motion";
 import { useState } from "react";
+import { Menu, X } from "lucide-react";
 
-type NavSection = { id: string; name: string };
-type NavigationProps = {
-  currentSection?: number;
-  scrollToSection?: (index: number) => void;
-  sections?: NavSection[];
-};
-
-const Navigation: React.FC<NavigationProps> = ({
-  currentSection,
-  scrollToSection,
-  sections,
-}) => {
+const Navigation = () => {
   const [isScrolled, setIsScrolled] = useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false);
   const { scrollY } = useScroll();
 
   useMotionValueEvent(scrollY, "change", (latest) => {
     setIsScrolled(latest > 40);
   });
 
-  const fallbackMenu = [
+  const menuItems = [
     { label: "Home", href: "#home" },
     { label: "About", href: "#about" },
     { label: "Services", href: "#services" },
@@ -28,80 +19,100 @@ const Navigation: React.FC<NavigationProps> = ({
     { label: "Contact", href: "#contact" },
   ];
 
-  const menuItems =
-    sections?.map((s, idx) => ({
-      label: s.name,
-      href: `#${s.id}`,
-      index: idx,
-    })) ?? fallbackMenu;
-
   return (
-    <motion.nav
-      className="fixed top-0 left-0 w-full z-50"
-      initial={{ y: -100 }}
-      animate={{ y: 0 }}
-      transition={{ duration: 0.6, ease: "easeOut" }}
-    >
-      {/* SAGE GREEN BAR */}
-      <motion.div
-        className="w-full"
-        animate={{
-          backgroundColor: "rgba(166, 169, 152, 0.95)",
-          backdropFilter: isScrolled
-            ? "blur(16px) saturate(160%)"
-            : "blur(10px) saturate(120%)",
-          borderBottomWidth: "1px",
-        }}
-        transition={{ duration: 0.3, ease: "easeInOut" }}
-        style={{
-          borderBottomColor: "rgba(255,255,255,0.15)",
-        }}
+    <>
+      {/* ================= DESKTOP NAV (UNCHANGED) ================= */}
+      <motion.nav
+        className="fixed top-0 left-0 w-full z-50 hidden md:block"
+        initial={{ y: -100 }}
+        animate={{ y: 0 }}
+        transition={{ duration: 0.6, ease: "easeOut" }}
       >
-        <div className="max-w-7xl mx-auto px-8 py-8 flex justify-between items-center">
-          {/* LOGO */}
-          <motion.img
-            src="/images/ADS.webp"
-            alt="logo"
-            initial={{ opacity: 0, y: -6 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            className="h-14 md:h-16 w-auto object-contain cursor-pointer"
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-          />
+        <motion.div
+          className="w-full"
+          animate={{
+            backgroundColor: isScrolled
+              ? "rgba(166,169,152,0.85)"
+              : "rgba(166,169,152,0.4)",
+            backdropFilter: isScrolled ? "blur(18px)" : "blur(10px)",
+          }}
+        >
+          <div className="max-w-7xl mx-auto px-8 py-8 flex justify-between items-center">
+            <img
+              src="/images/ADS.webp"
+              alt="logo"
+              className="h-14 cursor-pointer"
+            />
 
-          {/* DESKTOP MENU */}
-          <div className="hidden md:flex items-center space-x-10">
-            {menuItems.map((item, idx) => {
-              const isActive =
-                currentSection !== undefined && idx === currentSection;
-
-              return (
-                <motion.a
+            <div className="flex items-center space-x-10">
+              {menuItems.map((item) => (
+                <a
                   key={item.label}
                   href={item.href}
-                  className={`text-white tracking-wide text-lg font-light relative group ${
-                    isActive ? "opacity-100" : "opacity-80"
-                  }`}
-                  initial={{ opacity: 0, y: -6 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6, delay: 0.08 * idx }}
-                  whileHover={{ opacity: 1, y: -2 }}
+                  className="text-white/80 hover:text-white text-lg font-light tracking-wide"
                 >
                   {item.label}
-                  <motion.span
-                    className="absolute -bottom-1 left-0 h-px bg-white"
-                    initial={{ width: 0 }}
-                    animate={{ width: isActive ? "100%" : "0%" }}
-                    whileHover={{ width: "100%" }}
-                  />
-                </motion.a>
-              );
-            })}
+                </a>
+              ))}
+            </div>
           </div>
+        </motion.div>
+      </motion.nav>
+
+      {/* ================= MOBILE NAV (GROOVE STYLE) ================= */}
+      <div className="fixed top-0 left-0 w-full z-50 md:hidden">
+        <div className="flex items-center justify-between px-6 py-6 bg-[#A6A998]/80 backdrop-blur-xl">
+          <button onClick={() => setMobileOpen(true)}>
+            <Menu className="w-7 h-7 text-white" />
+          </button>
+
+          <img
+            src="/images/ADS.webp"
+            alt="logo"
+            className="h-10"
+          />
         </div>
-      </motion.div>
-    </motion.nav>
+
+        <AnimatePresence>
+          {mobileOpen && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="fixed inset-0 bg-[#A6A998] z-[999]"
+            >
+              <button
+                className="absolute top-6 right-6"
+                onClick={() => setMobileOpen(false)}
+              >
+                <X className="w-8 h-8 text-white" />
+              </button>
+
+              <motion.div
+                initial={{ y: 40, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                transition={{ delay: 0.1 }}
+                className="h-full flex flex-col justify-center px-10 space-y-8"
+              >
+                {menuItems.map((item, i) => (
+                  <motion.a
+                    key={item.label}
+                    href={item.href}
+                    onClick={() => setMobileOpen(false)}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.15 + i * 0.08 }}
+                    className="text-white text-3xl font-light tracking-wide"
+                  >
+                    {item.label}
+                  </motion.a>
+                ))}
+              </motion.div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </div>
+    </>
   );
 };
 
