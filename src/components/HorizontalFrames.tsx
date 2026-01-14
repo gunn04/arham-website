@@ -42,18 +42,19 @@ export default function HorizontalFrames() {
         {[...images, ...images].map((src, idx) => (
          <div
   key={idx}
-  className="w-[240px] md:w-[300px] h-[340px] md:h-[400px] 
-             rounded-2xl bg-black/90 
-             flex items-center justify-center 
-             flex-shrink-0"
+  className="w-[240px] md:w-[300px] aspect-[3/4] 
+             flex-shrink-0 
+             rounded-2xl 
+             overflow-hidden"
 >
   <img
-    src={src}
-    alt=""
-    className="max-w-full max-h-full object-contain"
+    src={img.src}
+    alt={img.alt}
+    className="w-full h-full object-contain"
     draggable={false}
   />
 </div>
+
 
         ))}
       </motion.div>
