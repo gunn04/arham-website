@@ -14,7 +14,7 @@ const Header = () => {
         transition={{ duration: 0.3 }}
       >
         <img 
-          src="/assets/logo.png" 
+          src="/assets/ADS.webp" 
           alt="Arham Design Studio" 
           className="h-8 w-auto object-contain filter brightness-0 invert opacity-90"
           onError={(e) => {
