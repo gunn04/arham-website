@@ -47,7 +47,7 @@ export default function HorizontalFrames() {
             <img
               src={src}
               alt=""
-              className="w-full h-full object-cover"
+              className="w-full h-full object-contain"
               draggable={false}
             />
           </div>
