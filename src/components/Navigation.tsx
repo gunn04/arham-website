@@ -58,7 +58,7 @@ const Navigation: React.FC<NavigationProps> = ({
       >
         <div className="max-w-7xl mx-auto px-8 py-8 flex justify-between items-center">
           <motion.img
-            src="/images/ADS.png"
+            src="/images/ADS.webp"
             alt="logo"
             initial={{ opacity: 0, y: -6 }}
             animate={{ opacity: 1, y: 0 }}
