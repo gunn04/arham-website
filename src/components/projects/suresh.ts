@@ -32,10 +32,10 @@ export const SureshProject={
             title: "Master Bedroom",
             description:
               "A calm and elegant bedroom finished in soft neutral tones, featuring a plush upholstered bed with warm integrated lighting. Clean-lined wardrobes and subtle textures create a cozy yet modern retreat.",
-            images: [{ src: "/images/sub1.png" },
-                     { src: "/images/sub2.png" },
-                     { src: "/images/sub3.png" },
-                     { src: "/images/sub4.png" },
+            images: [{ src: "/images/sub1.webp" },
+                     { src: "/images/sub2.webp" },
+                     { src: "/images/sub3.webp" },
+                     { src: "/images/sub4.webp" },
                     ],
           },
           {

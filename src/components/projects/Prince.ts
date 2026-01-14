@@ -56,7 +56,7 @@ export const PrinceProject={
 
           {
             id: 4,
-            title: " Guest Bedroom",
+            title: " Son's Bedroom",
             description:
               "A warm and welcoming guest bedroom featuring rich wood paneling and soft neutral finishes. The upholstered bed, subtle ambient lighting, and minimal décor create a calm, comfortable space with a refined modern feel.",
             images: [{ src: "/images/pg1.webp" },

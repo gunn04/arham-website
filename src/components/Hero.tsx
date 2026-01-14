@@ -28,11 +28,11 @@ const Hero = () => {
       text-base sm:text-lg md:text-3xl 
       font-light 
       text-amber-100 
-      tracking-wide 
+      italic 
       max-w-xs sm:max-w-md md:max-w-4xl 
       mx-auto
     "
-    style={{ fontFamily: "Playfair Display, serif" }}
+   style={{ fontFamily: 'Playfair Display, serif' }}
   >
     Crafting timeless spaces through refined architecture and design.
   </motion.p>
