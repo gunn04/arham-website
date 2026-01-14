@@ -26,10 +26,6 @@ dist-ssr
 # Build output
 dist/
 
-# Images (renders)
-public/images/*
-public/assets/*
-
 # Large files
 *.png
 *.jpg
