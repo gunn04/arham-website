@@ -34,29 +34,23 @@ export default function HorizontalFrames() {
         className="flex gap-6 will-change-transform"
         animate={{ x: [-0, -width] }}
         transition={{
-          duration: isMobile ? 5 : 26, // GROOVE SPEED
+          duration: isMobile ? 6 : 26, // GROOVE SPEED
           ease: "linear",
           repeat: Infinity,
         }}
       >
         {[...images, ...images].map((src, idx) => (
-         <div
-  key={idx}
-  className="w-[240px] md:w-[300px] h-[340px] md:h-[400px] 
-             rounded-2xl bg-black/90 
-             flex items-center justify-center 
-             flex-shrink-0"
->
-  <img
-    src={src}
-    alt=""
-    className="max-w-full max-h-full object-contain"
-    draggable={false}
-  />
-</div>
-
-
-
+          <div
+            key={idx}
+            className="w-[240px] md:w-[300px] h-[340px] md:h-[400px] rounded-2xl overflow-hidden bg-black flex-shrink-0"
+          >
+            <img
+              src={src}
+              alt=""
+              className="w-full h-full object-cover"
+              draggable={false}
+            />
+          </div>
         ))}
       </motion.div>
     </section>
