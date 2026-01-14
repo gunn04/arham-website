@@ -241,7 +241,7 @@ section {
 /* Faster horizontal scroll on mobile */
 @media (max-width: 768px) {
   .auto-scroll {
-    animation-duration: 15s; /* 🔥 faster = smaller number */
+    animation-duration: 22s; /* 🔥 faster = smaller number */
   }
 }
 @media (max-width: 768px) {

@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import { useEffect, useState } from "react";
 
 export default function HorizontalFrames() {
   const images = [
@@ -11,6 +12,13 @@ export default function HorizontalFrames() {
 
   const loopImages = [...images, ...images];
 
+  const [duration, setDuration] = useState(26);
+
+  useEffect(() => {
+    const isMobile = window.innerWidth < 768;
+    setDuration(isMobile ? 14 : 26); // 🚀 faster on mobile
+  }, []);
+
   return (
     <section className="relative w-full overflow-hidden py-20">
       {/* SUBTLE EDGE FADE */}
@@ -20,10 +28,10 @@ export default function HorizontalFrames() {
       </div>
 
       <motion.div
-        className="flex gap-8"
+        className="flex gap-8 will-change-transform"
         animate={{ x: ["0%", "-50%"] }}
         transition={{
-          duration: 26, // slower & smoother
+          duration,
           ease: "linear",
           repeat: Infinity,
         }}
@@ -31,12 +39,13 @@ export default function HorizontalFrames() {
         {loopImages.map((img, idx) => (
           <div
             key={idx}
-            className="w-[300px] h-[400px] rounded-2xl overflow-hidden shadow-2xl bg-black flex-shrink-0"
+            className="w-[260px] md:w-[300px] h-[360px] md:h-[400px] rounded-2xl overflow-hidden shadow-2xl bg-black flex-shrink-0"
           >
             <img
               src={img.src}
               alt={img.alt}
               className="w-full h-full object-cover"
+              draggable={false}
             />
           </div>
         ))}
