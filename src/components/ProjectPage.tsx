@@ -122,7 +122,7 @@ export default function VillaProjectPage({
   /* ───────── RENDER ───────── */
   return (
     <motion.div
-      className="fixed inset-0 bg-black text-white z-50 overflow-y-auto"
+      className="fixed inset-0 bg-black text-white z-50 overflow-y-auto overscroll-contain"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
     >
@@ -182,7 +182,7 @@ export default function VillaProjectPage({
 
 
       {/* FRAMER-STYLE EDITORIAL SECTIONS */}
-<section className="pb-40">
+<section className="pb-32 overflow-hidden">
   <div className="max-w-[1400px] mx-auto px-8 lg:px-12">
     {renderGroups.map((group, index) => (
       <div
@@ -228,7 +228,7 @@ export default function VillaProjectPage({
           {group.images.map((img, i) => (
             <div
               key={i}
-              className="w-full border-b border-white/10 last:border-b-0 flex justify-center py-6"
+              className="w-full border-b border-white/10 last:border-b-0 flex justify-center pt-5 pb-0"
             >
              <img
   src={img.src}
@@ -253,7 +253,7 @@ export default function VillaProjectPage({
           className="flex items-center gap-3 px-6 py-3 bg-white text-black rounded-full shadow-xl hover:scale-105 transition"
         >
           <Phone size={18} />
-          <span className="text-sm font-medium">Call Us</span>
+          <span className="text-sm font-medium">Consult Us</span>
         </a>
       </div>
     </motion.div>
