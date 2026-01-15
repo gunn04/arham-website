@@ -167,7 +167,7 @@ export default function VillaProjectPage({
           className="flex items-center gap-3 px-6 py-3 bg-white text-black rounded-full shadow-xl"
         >
           <Phone size={18} />
-          <span className="text-sm font-medium">Consult Us</span>
+          <span className="text-sm font-medium">Get Consultation</span>
         </a>
       </div>
     </motion.div>
