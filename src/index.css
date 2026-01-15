@@ -249,3 +249,77 @@ section {
     overscroll-behavior: none;
   }
 }
+
+/* ============================= */
+/* GLOBAL LUXURY RHYTHM FIX */
+/* ============================= */
+
+/* Reduce base font slightly (entire site) */
+html {
+  font-size: 95%;
+}
+
+/* Section spacing (desktop) */
+section {
+  padding-top: 3.5rem;   /* ↓ from 5rem */
+  padding-bottom: 3.5rem;
+  scroll-margin-top: 5.5rem;
+}
+
+/* Reduce gap between consecutive sections */
+section + section {
+  padding-top: 2.5rem;
+}
+
+/* Typography tightening */
+h1 {
+  margin-bottom: 1.25rem;
+}
+
+h2 {
+  margin-bottom: 1rem;
+}
+
+p {
+  line-height: 1.55;
+}
+
+/* Desktop refinement */
+@media (min-width: 1024px) {
+  html {
+    font-size: 96%;
+  }
+
+  section {
+    padding-top: 4rem;
+    padding-bottom: 4rem;
+  }
+
+  section + section {
+    padding-top: 3rem;
+  }
+}
+
+/* Mobile rhythm (CRITICAL FIX) */
+@media (max-width: 768px) {
+  html {
+    font-size: 92%;
+  }
+
+  section {
+    padding-top: 2.5rem;
+    padding-bottom: 2.5rem;
+  }
+
+  section + section {
+    padding-top: 1.75rem;
+  }
+
+  h1 {
+    margin-bottom: 1rem;
+  }
+
+  h2 {
+    margin-bottom: 0.75rem;
+  }
+}
