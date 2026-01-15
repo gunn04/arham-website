@@ -30,7 +30,7 @@ const OurProjects = ({ onProjectClick }: OurProjectsProps) => {
       id: 1,
       title: "Mr. Sachin Ranka",
       image: "/images/sachinji bd.webp",
-      projectData: SachinRankaProject,
+      projectData: sachinrankaProject,
     },
     {
       id: 2,
