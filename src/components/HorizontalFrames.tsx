@@ -16,9 +16,7 @@ export default function HorizontalFrames() {
   const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
-    const onResize = () => {
-      setIsMobile(window.innerWidth <= 768);
-    };
+    const onResize = () => setIsMobile(window.innerWidth <= 768);
     onResize();
     window.addEventListener("resize", onResize);
     return () => window.removeEventListener("resize", onResize);
@@ -35,11 +33,12 @@ export default function HorizontalFrames() {
         <div className="absolute right-0 top-0 h-full w-14 bg-gradient-to-l from-black/60 to-transparent" />
       </div>
 
+      {/* MOVING TRACK */}
       <motion.div
         className="flex gap-8"
-        animate={isInView ? { x: "-50%" } : { x: 0 }}
+        animate={isInView ? { x: ["0%", "-50%"] } : {}}
         transition={{
-          duration: isMobile ? 18 : 30,
+          duration: isMobile ? 12 : 28, // ✅ MOBILE SPEED = 12
           ease: "linear",
           repeat: Infinity,
         }}
@@ -49,7 +48,8 @@ export default function HorizontalFrames() {
           backfaceVisibility: "hidden",
         }}
       >
-        {[...images, ...images].map((src, i) => (
+        {/* 🔁 Triple loop so ALL images keep moving */}
+        {[...images, ...images, ...images].map((src, i) => (
           <div
             key={i}
             className="w-[240px] md:w-[320px] aspect-[4/5] flex-shrink-0"
