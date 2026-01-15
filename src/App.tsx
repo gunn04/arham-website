@@ -18,21 +18,33 @@ function App() {
   const [isVillaProjectOpen, setIsVillaProjectOpen] = useState(false);
   const [selectedProject, setSelectedProject] = useState<ProjectData | null>(null);
 
-  /* 🔥 SAFARI CRASH FIX — DO NOT REMOVE */
+  /* 🔥 SAFARI HARD FIX — DO NOT REMOVE */
   useEffect(() => {
     if ("scrollRestoration" in history) {
       history.scrollRestoration = "manual";
     }
 
-    // remove any existing hash silently
+    // remove hash safely (prevents iOS reload loop)
     if (window.location.hash) {
-      history.replaceState(null, "", window.location.pathname);
+      history.replaceState(
+        null,
+        "",
+        window.location.pathname + window.location.search
+      );
     }
+
+    return () => {
+      if ("scrollRestoration" in history) {
+        history.scrollRestoration = "auto";
+      }
+    };
   }, []);
 
   return (
     <div className="bg-black text-white overflow-x-hidden">
-      <ScrollProgress />
+      {/* ❌ Disable ScrollProgress when project modal is open */}
+      {!isVillaProjectOpen && <ScrollProgress />}
+
       <Navigation />
 
       <section id="home">
