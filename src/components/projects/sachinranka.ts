@@ -48,12 +48,12 @@ export const sachinrankaProject = {
             title: "Son's Bedroom",
             description:
               "A modern, luxurious bedroom featuring a sculpted headboard wall, warm wood textures, soft beige tones, and elegant accent lighting. The space combines clean lines, marble flooring, and subtle decor to create a calm, sophisticated, and premium atmosphere",
-            images: [{ src: "/images/S-Sons-Bedroom-1.webp" },
-                     { src: "/images/S-Sons-Bedroom-2.webp"},
-                     { src: "/images/S-Sons-Bedroom-3.webp"},
+            images: [{ src: "/images/ss1.webp" },
+                     { src: "/images/ss1.webp"},
+                    /* { src: "/images/S-Sons-Bedroom-3.webp"},
                      { src: "/images/S-Sons-Bedroom-4.webp"},
                      { src: "/images/S-Sons-Bedroom-5.webp"},
-                     { src: "/images/S-Sons-Bedroom-6.webp"}, 
+                     { src: "/images/S-Sons-Bedroom-6.webp"},/* 
                     ],
           },
           {
