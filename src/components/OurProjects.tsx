@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import { prithvirajProject } from "./projects/prithviraj";
 import { sachinrankaProject } from "./projects/sachinranka";
-import { SumitRankaProject } from "./projects/Sumit";
+import { sumitrankaProject } from "./projects/Sumit";
 import { PrinceProject } from "./projects/Prince";
 import { niteshProject } from "./projects/nitesh";
 import { SureshProject } from "./projects/suresh";
@@ -42,7 +42,7 @@ const OurProjects = ({ onProjectClick }: OurProjectsProps) => {
       id: 3,
       title: "Mr. Sumit Ranka",
       image: "/images/SSB1.webp",
-      projectData: SumitRankaProject,
+      projectData: sumitrankaProject,
     },
     {
       id: 4,
