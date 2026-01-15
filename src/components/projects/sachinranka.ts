@@ -1,6 +1,6 @@
-import type { RenderGroup } from "../ProjectPage";
+import type { RenderGroup } from "../ProjectPage"
 
-export const sachinrankaProject = {
+export const sachinrankaProject={
         title: "Mr. Sachin Ranka Residence",
         overview:
           "A modern luxury 3BHK residence blending elegance, comfort, and functionality.",
@@ -36,12 +36,10 @@ export const sachinrankaProject = {
             title: "Master Bedroom",
             description:
               "A refined contemporary bedroom featuring a warm neutral palette, elegant marble flooring, and seamless wall paneling. The space is anchored by a plush platform bed with rich burgundy accents, complemented by bespoke side tables and sculptural décor. Sleek wardrobes, minimalistic lighting, and curated textures create a luxurious yet serene ambience throughout the room.",
-            images: [
-                     { src: "/images/ms-1.webp" },
+            images: [{ src: "/images/ms-1.webp" },
                      { src: "/images/ms-2.webp"},
                      { src: "/images/ms-3.webp"},
-                     { src: "/images/ms-4.webp"},
-                    ],
+                     { src: "/images/ms-4.webp"}],
           },
           {
             id: 3,
@@ -49,12 +47,8 @@ export const sachinrankaProject = {
             description:
               "A modern, luxurious bedroom featuring a sculpted headboard wall, warm wood textures, soft beige tones, and elegant accent lighting. The space combines clean lines, marble flooring, and subtle decor to create a calm, sophisticated, and premium atmosphere",
             images: [{ src: "/images/ss1.webp" },
-                     { src: "/images/ss1.webp"},
-                    /* { src: "/images/S-Sons-Bedroom-3.webp"},
-                     { src: "/images/S-Sons-Bedroom-4.webp"},
-                     { src: "/images/S-Sons-Bedroom-5.webp"},
-                     { src: "/images/S-Sons-Bedroom-6.webp"},/* 
-                    ],
+                     { src: "/images/ss2.webp"},
+                     
           },
           {
             id: 4,
@@ -67,7 +61,7 @@ export const sachinrankaProject = {
                      ],
           },
         ] as RenderGroup[],
-      };
+      } 
 
 
        
