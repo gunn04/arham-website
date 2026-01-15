@@ -105,7 +105,7 @@ export default function VillaProjectPage({
           <div
             key={group.id}
             ref={(el) => (mobileRefs.current[index] = el)}
-            className="mb-[50vh]"
+            className="mb-[20vh]"
           >
             <h2 className="text-[26px] font-light leading-tight mb-3">
               {group.title}
