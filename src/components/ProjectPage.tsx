@@ -64,7 +64,7 @@ export default function VillaProjectPage({
 
   return (
     <motion.div
-      className="fixed inset-0 bg-black text-white z-50 overflow-y-auto"
+      className="fixed inset-0 bg-black text-white z-50 overflow-y-scroll overscroll-contain"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
     >
@@ -110,7 +110,18 @@ export default function VillaProjectPage({
               className="grid grid-cols-1 lg:grid-cols-[420px_1fr] items-start"
             >
               {/* LEFT TEXT — STICKY */}
-              <div className="hidden lg:block sticky top-[22vh] self-start pr-6">
+              <div className="
+  sticky
+  top-[72px]
+  lg:top-[22vh]
+  self-start
+  bg-black
+  z-20
+  pr-4
+  lg:pr-6
+  py-6
+">
+
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
@@ -127,7 +138,7 @@ export default function VillaProjectPage({
               </div>
 
               {/* RIGHT IMAGES */}
-              <div className="relative border-l border-white/10 pl-6">
+              <div className="relative lg:border-l border-white/10 pl-0 lg:pl-6">
                 {group.images.map((img, i) => (
                   <div
                     key={i}
