@@ -1,11 +1,15 @@
 import { motion, AnimatePresence } from 'framer-motion';
 import { useState } from 'react';
 import { X, Upload, Eye, ZoomIn } from 'lucide-react';
+import { useEffect } from "react";
+
 
 interface VillaGalleryProps {
   isOpen: boolean;
   onClose: () => void;
 }
+
+
 
 const VillaGallery = ({ isOpen, onClose }: VillaGalleryProps) => {
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
@@ -50,6 +54,13 @@ const VillaGallery = ({ isOpen, onClose }: VillaGalleryProps) => {
     }
   ];
 
+  useEffect(() => {
+  villaRenders.forEach(render => {
+    const img = new Image();
+    img.src = render.image;
+  });
+}, []);
+
   const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (file) {
@@ -79,9 +90,9 @@ const VillaGallery = ({ isOpen, onClose }: VillaGalleryProps) => {
           
           {/* Modal */}
           <motion.div
-            initial={{ opacity: 0, scale: 0.9, y: 20 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.9, y: 20 }}
+             initial={{ opacity: 0 }}
+             animate={{ opacity: 1 }}
+             exit={{ opacity: 0 }}
             className="fixed inset-4 md:inset-8 bg-black border border-white/20 rounded-2xl z-50 overflow-hidden"
           >
             {/* Header */}
@@ -120,23 +131,27 @@ const VillaGallery = ({ isOpen, onClose }: VillaGalleryProps) => {
             </div>
 
             {/* Gallery Grid */}
-            <div className="p-6 h-full overflow-y-auto">
+            <div className="p-6 h-full overflow-y-auto will-change-transform">
+
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {villaRenders.map((render, index) => (
                   <motion.div
                     key={render.id}
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.5, delay: index * 0.1 }}
+                    transition={{ duration: 0.35, ease: "easeOut" }}
                     className="group relative aspect-[4/3] rounded-xl overflow-hidden bg-gray-900 cursor-pointer"
                     onClick={() => setSelectedImage(render.image)}
                   >
                     <img
-                      src={render.image}
-                      alt={render.title}
-                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-                      loading="lazy"
-                    />
+                    src={render.image}
+                    alt={render.title}
+                    loading="lazy"
+                    decoding="async"
+                    draggable={false}
+                    className="w-full h-full object-cover transition-transform duration-400 will-change-transform group-hover:scale-[1.04]"
+                  />
+
                     
                     {/* Overlay */}
                     <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
@@ -170,9 +185,11 @@ const VillaGallery = ({ isOpen, onClose }: VillaGalleryProps) => {
                 onClick={() => setSelectedImage(null)}
               >
                 <motion.img
-                  initial={{ scale: 0.8 }}
-                  animate={{ scale: 1 }}
-                  exit={{ scale: 0.8 }}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  decoding="async"
+                  loading="eager"
                   src={selectedImage}
                   alt="Villa Render"
                   className="max-w-full max-h-full object-contain rounded-lg"
