@@ -235,6 +235,7 @@ export default function VillaProjectPage({
   alt=""
   loading="lazy"
   decoding="async"
+  draggable={false}
   className="w-full max-w-[620px] h-auto object-contain transition-opacity duration-300"
 />
             </div>
