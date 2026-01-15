@@ -63,7 +63,7 @@ export default function HorizontalFrames() {
               src={src}
               alt=""
               draggable={false}
-              className="w-full h-full object-contain"
+              className="w-full h-full object-cover"
             />
           </div>
         ))}
