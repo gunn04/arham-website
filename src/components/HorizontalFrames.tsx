@@ -53,6 +53,10 @@ export default function HorizontalFrames() {
           ease: "linear",
           repeat: Infinity,
         }}
+        style={{
+          transform: "translate3d(0,0,0)",  // ✅ GPU acceleration
+          backfaceVisibility: "hidden",    // ✅ prevent Safari repaint lag
+        }}
       >
         {[...images, ...images].map((src, i) => (
           <div
@@ -63,7 +67,10 @@ export default function HorizontalFrames() {
               src={src}
               alt=""
               draggable={false}
+              loading="lazy"
+              decoding="async"
               className="w-full h-full object-cover rounded-lg"
+              style={{ backfaceVisibility: "hidden", transform: "translateZ(0)" }} // ✅ smooth iOS
             />
           </div>
         ))}
