@@ -1,5 +1,5 @@
 import { motion, AnimatePresence } from "framer-motion";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { X, ZoomIn } from "lucide-react";
 
 interface VillaGalleryProps {
@@ -18,30 +18,6 @@ const VillaGallery = ({ isOpen, onClose }: VillaGalleryProps) => {
     { id: 5, title: "Kitchen Design", image: "https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=1200", category: "Interior" },
     { id: 6, title: "Dining Area", image: "https://images.unsplash.com/photo-1449247709967-d4461a6a6103?w=1200", category: "Interior" }
   ];
-
-  /* 🔒 HARD BODY SCROLL LOCK (iOS SAFE) */
-  useEffect(() => {
-    if (!isOpen) return;
-
-    const originalOverflow = document.body.style.overflow;
-    const originalTouchAction = document.body.style.touchAction;
-
-    document.body.style.overflow = "hidden";
-    document.body.style.touchAction = "none";
-
-    return () => {
-      document.body.style.overflow = originalOverflow;
-      document.body.style.touchAction = originalTouchAction;
-    };
-  }, [isOpen]);
-
-  /* 🚀 PRELOAD IMAGES */
-  useEffect(() => {
-    villaRenders.forEach((r) => {
-      const img = new Image();
-      img.src = r.image;
-    });
-  }, []);
 
   return (
     <AnimatePresence>
@@ -62,7 +38,7 @@ const VillaGallery = ({ isOpen, onClose }: VillaGalleryProps) => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            onClick={(e) => e.stopPropagation()} // ⛔ stop backdrop click
+            onClick={(e) => e.stopPropagation()}
           >
             {/* HEADER */}
             <div className="flex justify-between items-center p-6 border-b border-white/10">
@@ -77,11 +53,10 @@ const VillaGallery = ({ isOpen, onClose }: VillaGalleryProps) => {
               </button>
             </div>
 
-            {/* SCROLL AREA (iOS FIXED) */}
+            {/* ✅ ONLY SCROLL CONTAINER */}
             <div
-              className="flex-1 overflow-y-scroll overscroll-contain p-6"
+              className="flex-1 overflow-y-auto overscroll-contain p-6"
               style={{ WebkitOverflowScrolling: "touch" }}
-              onTouchMove={(e) => e.stopPropagation()}
             >
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {villaRenders.map((render) => (

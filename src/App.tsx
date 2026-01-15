@@ -16,15 +16,46 @@ import { ProjectData } from "./components/OurProjects";
 function App() {
   const [isVillaGalleryOpen, setIsVillaGalleryOpen] = useState(false);
   const [isVillaProjectOpen, setIsVillaProjectOpen] = useState(false);
-  const [selectedProject, setSelectedProject] = useState<ProjectData | null>(null);
+  const [selectedProject, setSelectedProject] =
+    useState<ProjectData | null>(null);
 
-  /* 🔥 SAFARI HARD FIX — DO NOT REMOVE */
+  /* 🔒 iOS SAFARI — BODY SCROLL LOCK (CRITICAL) */
+  useEffect(() => {
+    const body = document.body;
+
+    if (isVillaProjectOpen) {
+      const scrollY = window.scrollY;
+
+      body.style.position = "fixed";
+      body.style.top = `-${scrollY}px`;
+      body.style.left = "0";
+      body.style.right = "0";
+      body.style.width = "100%";
+      body.style.overflow = "hidden";
+      body.style.touchAction = "none";
+    } else {
+      const scrollY = body.style.top;
+
+      body.style.position = "";
+      body.style.top = "";
+      body.style.left = "";
+      body.style.right = "";
+      body.style.width = "";
+      body.style.overflow = "";
+      body.style.touchAction = "";
+
+      if (scrollY) {
+        window.scrollTo(0, parseInt(scrollY || "0") * -1);
+      }
+    }
+  }, [isVillaProjectOpen]);
+
+  /* 🧯 Prevent Safari scroll restoration + hash jumps */
   useEffect(() => {
     if ("scrollRestoration" in history) {
       history.scrollRestoration = "manual";
     }
 
-    // remove hash safely (prevents iOS reload loop)
     if (window.location.hash) {
       history.replaceState(
         null,
@@ -42,7 +73,6 @@ function App() {
 
   return (
     <div className="bg-black text-white overflow-x-hidden">
-      {/* ❌ Disable ScrollProgress when project modal is open */}
       {!isVillaProjectOpen && <ScrollProgress />}
 
       <Navigation />
