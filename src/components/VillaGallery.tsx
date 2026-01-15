@@ -1,172 +1,104 @@
-import { motion, AnimatePresence } from 'framer-motion';
-import { useState } from 'react';
-import { X, Upload, Eye, ZoomIn } from 'lucide-react';
-import { useEffect } from "react";
-
+import { motion, AnimatePresence } from "framer-motion";
+import { useState, useEffect } from "react";
+import { X, Upload, ZoomIn } from "lucide-react";
 
 interface VillaGalleryProps {
   isOpen: boolean;
   onClose: () => void;
 }
 
-
-
 const VillaGallery = ({ isOpen, onClose }: VillaGalleryProps) => {
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
-  
-  // Sample villa renders - you can replace these with your actual renders
+
   const villaRenders = [
-    {
-      id: 1,
-      title: "Exterior Front View",
-      image: "/assets/m-bed-view-1.jpg", // Using your uploaded bedroom image as placeholder
-      category: "Exterior"
-    },
-    {
-      id: 2,
-      title: "Living Room Interior",
-      image: "https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?w=1200&h=800&fit=crop&auto=format",
-      category: "Interior"
-    },
-    {
-      id: 3,
-      title: "Master Bedroom",
-      image: "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=1200&h=800&fit=crop&auto=format",
-      category: "Interior"
-    },
-    {
-      id: 4,
-      title: "Pool Area",
-      image: "https://images.unsplash.com/photo-1544984243-ec57ea16fe25?w=1200&h=800&fit=crop&auto=format",
-      category: "Exterior"
-    },
-    {
-      id: 5,
-      title: "Kitchen Design",
-      image: "https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=1200&h=800&fit=crop&auto=format",
-      category: "Interior"
-    },
-    {
-      id: 6,
-      title: "Dining Area",
-      image: "https://images.unsplash.com/photo-1449247709967-d4461a6a6103?w=1200&h=800&fit=crop&auto=format",
-      category: "Interior"
-    }
+    { id: 1, title: "Exterior Front View", image: "/assets/m-bed-view-1.jpg", category: "Exterior" },
+    { id: 2, title: "Living Room Interior", image: "https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?w=1200", category: "Interior" },
+    { id: 3, title: "Master Bedroom", image: "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=1200", category: "Interior" },
+    { id: 4, title: "Pool Area", image: "https://images.unsplash.com/photo-1544984243-ec57ea16fe25?w=1200", category: "Exterior" },
+    { id: 5, title: "Kitchen Design", image: "https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=1200", category: "Interior" },
+    { id: 6, title: "Dining Area", image: "https://images.unsplash.com/photo-1449247709967-d4461a6a6103?w=1200", category: "Interior" }
   ];
 
+  /* 🔒 LOCK BACKGROUND SCROLL */
   useEffect(() => {
-  villaRenders.forEach(render => {
-    const img = new Image();
-    img.src = render.image;
-  });
-}, []);
+    if (isOpen) document.body.style.overflow = "hidden";
+    else document.body.style.overflow = "";
 
-  const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        // In a real application, you would upload this to your server
-        console.log('Image uploaded:', e.target?.result);
-        // For demo purposes, we'll just log it
-        alert('Image upload functionality ready! Connect to your backend to save images.');
-      };
-      reader.readAsDataURL(file);
-    }
-  };
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [isOpen]);
+
+  /* 🚀 PRELOAD IMAGES */
+  useEffect(() => {
+    villaRenders.forEach((r) => {
+      const img = new Image();
+      img.src = r.image;
+    });
+  }, []);
 
   return (
     <AnimatePresence>
       {isOpen && (
         <>
-          {/* Backdrop */}
+          {/* BACKDROP */}
           <motion.div
+            className="fixed inset-0 bg-black/90 backdrop-blur-sm z-50"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 bg-black/90 backdrop-blur-sm z-50"
             onClick={onClose}
           />
-          
-          {/* Modal */}
+
+          {/* MODAL */}
           <motion.div
-             initial={{ opacity: 0 }}
-             animate={{ opacity: 1 }}
-             exit={{ opacity: 0 }}
-            className="fixed inset-4 md:inset-8 bg-black border border-white/20 rounded-2xl z-50 overflow-hidden"
+            className="fixed inset-4 md:inset-8 bg-black border border-white/20 rounded-2xl z-50 flex flex-col"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
           >
-            {/* Header */}
-            <div className="flex items-center justify-between p-6 border-b border-white/10">
+            {/* HEADER */}
+            <div className="flex justify-between items-center p-6 border-b border-white/10">
               <div>
-                <h2 
-                  className="text-2xl md:text-3xl text-white font-light tracking-wide"
-                  style={{ fontFamily: 'Playfair Display, serif' }}
-                >
+                <h2 className="text-2xl md:text-3xl font-light text-white">
                   Modern Luxury Villa
                 </h2>
-                <p className="text-white/60 mt-1">Project Renders & Gallery</p>
+                <p className="text-white/60">Project Renders & Gallery</p>
               </div>
-              
-              <div className="flex items-center gap-4">
-                {/* Upload Button */}
-                <label className="flex items-center gap-2 px-4 py-2 bg-white/10 hover:bg-white/20 border border-white/20 rounded-lg cursor-pointer transition-all duration-300">
-                  <Upload size={16} />
-                  <span className="text-sm">Upload Render</span>
-                  <input
-                    type="file"
-                    accept="image/*"
-                    onChange={handleImageUpload}
-                    className="hidden"
-                  />
-                </label>
-                
-                {/* Close Button */}
-                <button
-                  onClick={onClose}
-                  className="p-2 hover:bg-white/10 rounded-lg transition-all duration-300"
-                >
-                  <X size={24} className="text-white" />
-                </button>
-              </div>
+              <button onClick={onClose} className="p-2 hover:bg-white/10 rounded-lg">
+                <X size={24} />
+              </button>
             </div>
 
-            {/* Gallery Grid */}
-            <div className="p-6 h-full overflow-y-auto will-change-transform">
-
+            {/* ✅ SCROLL CONTAINER */}
+            <div className="flex-1 overflow-y-auto overscroll-contain p-6">
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {villaRenders.map((render, index) => (
                   <motion.div
                     key={render.id}
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.35, ease: "easeOut" }}
+                    transition={{ duration: 0.3 }}
                     className="group relative aspect-[4/3] rounded-xl overflow-hidden bg-gray-900 cursor-pointer"
                     onClick={() => setSelectedImage(render.image)}
                   >
                     <img
-                    src={render.image}
-                    alt={render.title}
-                    loading="lazy"
-                    decoding="async"
-                    draggable={false}
-                    className="w-full h-full object-cover transition-transform duration-400 will-change-transform group-hover:scale-[1.04]"
-                  />
+                      src={render.image}
+                      alt={render.title}
+                      loading="lazy"
+                      decoding="async"
+                      className="w-full h-full object-cover group-hover:scale-[1.04] transition-transform"
+                    />
 
-                    
-                    {/* Overlay */}
-                    <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                      <div className="text-center text-white">
-                        <ZoomIn size={32} className="mx-auto mb-2" />
-                        <p className="text-sm font-light">Click to enlarge</p>
-                      </div>
+                    <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition flex items-center justify-center">
+                      <ZoomIn size={32} />
                     </div>
-                    
-                    {/* Info */}
-                    <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/80 to-transparent">
-                      <span className="inline-block px-2 py-1 bg-white/20 rounded text-xs text-white/90 mb-2">
+
+                    <div className="absolute bottom-0 w-full p-4 bg-gradient-to-t from-black/80">
+                      <span className="text-xs bg-white/20 px-2 py-1 rounded">
                         {render.category}
                       </span>
-                      <h3 className="text-white font-light">{render.title}</h3>
+                      <h3 className="text-white mt-1">{render.title}</h3>
                     </div>
                   </motion.div>
                 ))}
@@ -174,32 +106,22 @@ const VillaGallery = ({ isOpen, onClose }: VillaGalleryProps) => {
             </div>
           </motion.div>
 
-          {/* Image Lightbox */}
+          {/* LIGHTBOX */}
           <AnimatePresence>
             {selectedImage && (
               <motion.div
+                className="fixed inset-0 bg-black/95 z-[60] flex items-center justify-center p-4"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
-                className="fixed inset-0 bg-black/95 z-60 flex items-center justify-center p-4"
                 onClick={() => setSelectedImage(null)}
               >
-                <motion.img
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  decoding="async"
-                  loading="eager"
+                <img
                   src={selectedImage}
-                  alt="Villa Render"
+                  alt=""
                   className="max-w-full max-h-full object-contain rounded-lg"
+                  loading="eager"
                 />
-                <button
-                  onClick={() => setSelectedImage(null)}
-                  className="absolute top-4 right-4 p-2 bg-white/10 hover:bg-white/20 rounded-lg transition-all duration-300"
-                >
-                  <X size={24} className="text-white" />
-                </button>
               </motion.div>
             )}
           </AnimatePresence>
