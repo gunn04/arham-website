@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 
 import Hero from "./components/Hero";
@@ -11,22 +11,33 @@ import VillaGallery from "./components/VillaGallery";
 import VillaProjectPage from "./components/ProjectPage";
 import ScrollProgress from "./components/ScrollProgress";
 
-import { ProjectData } from "./components/OurProjects"; // import type if exported
+import { ProjectData } from "./components/OurProjects";
 
 function App() {
   const [isVillaGalleryOpen, setIsVillaGalleryOpen] = useState(false);
   const [isVillaProjectOpen, setIsVillaProjectOpen] = useState(false);
   const [selectedProject, setSelectedProject] = useState<ProjectData | null>(null);
-  const [activeProject, setActiveProject] = useState<ProjectData | null>(null);
+
+  /* 🔥 SAFARI CRASH FIX — DO NOT REMOVE */
+  useEffect(() => {
+    if ("scrollRestoration" in history) {
+      history.scrollRestoration = "manual";
+    }
+
+    // remove any existing hash silently
+    if (window.location.hash) {
+      history.replaceState(null, "", window.location.pathname);
+    }
+  }, []);
 
   return (
     <div className="bg-black text-white overflow-x-hidden">
       <ScrollProgress />
       <Navigation />
 
-      <div id="home">
+      <section id="home">
         <Hero />
-      </div>
+      </section>
 
       <div className="relative flex justify-center py-12">
         <motion.span
@@ -39,42 +50,42 @@ function App() {
         </motion.span>
       </div>
 
-      <div id="about">
+      <section id="about">
         <AboutUs />
-      </div>
+      </section>
 
-      <div id="services">
+      <section id="services">
         <WhatWeDo />
-      </div>
+      </section>
 
-      <div id="projects">
+      <section id="projects">
         <OurProjects
           onProjectClick={(project) => {
             setSelectedProject(project);
-            setActiveProject(project); // optional, if you need activeProject separately
             setIsVillaProjectOpen(true);
           }}
         />
-      </div>
+      </section>
 
-      <div id="contact">
+      <section id="contact">
         <ContactInformation />
-      </div>
+      </section>
 
       <VillaGallery
         isOpen={isVillaGalleryOpen}
         onClose={() => setIsVillaGalleryOpen(false)}
       />
-      {selectedProject && 
-      <VillaProjectPage
-        isOpen={isVillaProjectOpen}
-        title= {selectedProject.title}
-        info = {selectedProject.info}
-        overview={selectedProject.overview} // pass the selected project
-        renderGroups={selectedProject.renderGroups}
-        onClose={() => setIsVillaProjectOpen(false)}
-      />
-}
+
+      {selectedProject && (
+        <VillaProjectPage
+          isOpen={isVillaProjectOpen}
+          title={selectedProject.title}
+          info={selectedProject.info}
+          overview={selectedProject.overview}
+          renderGroups={selectedProject.renderGroups}
+          onClose={() => setIsVillaProjectOpen(false)}
+        />
+      )}
     </div>
   );
 }

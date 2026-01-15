@@ -1,4 +1,9 @@
-import { motion, AnimatePresence, useScroll, useMotionValueEvent } from "framer-motion";
+import {
+  motion,
+  AnimatePresence,
+  useScroll,
+  useMotionValueEvent,
+} from "framer-motion";
 import { useState } from "react";
 import { Menu, X } from "lucide-react";
 
@@ -12,16 +17,28 @@ const Navigation = () => {
   });
 
   const menuItems = [
-    { label: "Home", href: "#home" },
-    { label: "About", href: "#about" },
-    { label: "Services", href: "#services" },
-    { label: "Projects", href: "#projects" },
-    { label: "Contact", href: "#contact" },
+    { label: "Home", id: "home" },
+    { label: "About", id: "about" },
+    { label: "Services", id: "services" },
+    { label: "Projects", id: "projects" },
+    { label: "Contact", id: "contact" },
   ];
+
+  const scrollToSection = (id: string) => {
+    const el = document.getElementById(id);
+    if (!el) return;
+
+    setMobileOpen(false);
+
+    // Safari-safe smooth scroll (NO HASH)
+    requestAnimationFrame(() => {
+      el.scrollIntoView({ behavior: "smooth", block: "start" });
+    });
+  };
 
   return (
     <>
-      {/* ================= DESKTOP NAV (UNCHANGED) ================= */}
+      {/* ================= DESKTOP NAV ================= */}
       <motion.nav
         className="fixed top-0 left-0 w-full z-50 hidden md:block"
         initial={{ y: -100 }}
@@ -42,35 +59,32 @@ const Navigation = () => {
               src="/images/ADS.webp"
               alt="logo"
               className="h-14 cursor-pointer"
+              onClick={() => scrollToSection("home")}
             />
 
             <div className="flex items-center space-x-10">
               {menuItems.map((item) => (
-                <a
+                <button
                   key={item.label}
-                  href={item.href}
+                  onClick={() => scrollToSection(item.id)}
                   className="text-white/80 hover:text-white text-lg font-light tracking-wide"
                 >
                   {item.label}
-                </a>
+                </button>
               ))}
             </div>
           </div>
         </motion.div>
       </motion.nav>
 
-      {/* ================= MOBILE NAV (GROOVE STYLE) ================= */}
+      {/* ================= MOBILE NAV ================= */}
       <div className="fixed top-0 left-0 w-full z-50 md:hidden">
         <div className="flex items-center justify-between px-6 py-6 bg-[#A6A998]/80 backdrop-blur-xl">
           <button onClick={() => setMobileOpen(true)}>
             <Menu className="w-7 h-7 text-white" />
           </button>
 
-          <img
-            src="/images/ADS.webp"
-            alt="logo"
-            className="h-10"
-          />
+          <img src="/images/ADS.webp" alt="logo" className="h-10" />
         </div>
 
         <AnimatePresence>
@@ -95,17 +109,16 @@ const Navigation = () => {
                 className="h-full flex flex-col justify-center px-10 space-y-8"
               >
                 {menuItems.map((item, i) => (
-                  <motion.a
+                  <motion.button
                     key={item.label}
-                    href={item.href}
-                    onClick={() => setMobileOpen(false)}
+                    onClick={() => scrollToSection(item.id)}
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.15 + i * 0.08 }}
-                    className="text-white text-3xl font-light tracking-wide"
+                    className="text-white text-3xl font-light tracking-wide text-left"
                   >
                     {item.label}
-                  </motion.a>
+                  </motion.button>
                 ))}
               </motion.div>
             </motion.div>
