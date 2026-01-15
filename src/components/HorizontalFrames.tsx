@@ -1,4 +1,4 @@
-import { motion, useInView } from "framer-motion";
+import { motion } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 
 export default function HorizontalFrames() {
@@ -11,15 +11,25 @@ export default function HorizontalFrames() {
   ];
 
   const containerRef = useRef<HTMLDivElement>(null);
-  const isInView = useInView(containerRef, { margin: "-20% 0px" });
+  const trackRef = useRef<HTMLDivElement>(null);
 
+  const [distance, setDistance] = useState(0);
   const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
-    const onResize = () => setIsMobile(window.innerWidth <= 768);
-    onResize();
-    window.addEventListener("resize", onResize);
-    return () => window.removeEventListener("resize", onResize);
+    const calculate = () => {
+      setIsMobile(window.innerWidth <= 768);
+
+      if (trackRef.current) {
+        // Width of ONE full set
+        const width = trackRef.current.scrollWidth / 2;
+        setDistance(width);
+      }
+    };
+
+    calculate();
+    window.addEventListener("resize", calculate);
+    return () => window.removeEventListener("resize", calculate);
   }, []);
 
   return (
@@ -27,29 +37,24 @@ export default function HorizontalFrames() {
       ref={containerRef}
       className="relative w-full overflow-hidden py-16"
     >
-      {/* Edge fade */}
+      {/* Edge fade like Groove */}
       <div className="pointer-events-none absolute inset-0 z-10">
         <div className="absolute left-0 top-0 h-full w-14 bg-gradient-to-r from-black/60 to-transparent" />
         <div className="absolute right-0 top-0 h-full w-14 bg-gradient-to-l from-black/60 to-transparent" />
       </div>
 
-      {/* MOVING TRACK */}
       <motion.div
-        className="flex gap-8"
-        animate={isInView ? { x: ["0%", "-50%"] } : {}}
+        ref={trackRef}
+        key={isMobile ? "mobile" : "desktop"}
+        className="flex gap-8 will-change-transform"
+        animate={{ x: [0, -distance] }}
         transition={{
-          duration: isMobile ? 12 : 28, // ✅ MOBILE SPEED = 12
+          duration: isMobile ? 14 : 24, // GROOVE SPEED
           ease: "linear",
           repeat: Infinity,
         }}
-        style={{
-          willChange: "transform",
-          transform: "translate3d(0,0,0)",
-          backfaceVisibility: "hidden",
-        }}
       >
-        {/* 🔁 Triple loop so ALL images keep moving */}
-        {[...images, ...images, ...images].map((src, i) => (
+        {[...images, ...images].map((src, i) => (
           <div
             key={i}
             className="w-[240px] md:w-[320px] aspect-[4/5] flex-shrink-0"
@@ -58,8 +63,6 @@ export default function HorizontalFrames() {
               src={src}
               alt=""
               draggable={false}
-              loading="lazy"
-              decoding="async"
               className="w-full h-full object-cover rounded-lg"
             />
           </div>
