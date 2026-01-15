@@ -30,69 +30,16 @@ interface ProjectPageProps {
   renderGroups: RenderGroup[];
 }
 
-
 /* ───────── COMPONENT ───────── */
 export default function VillaProjectPage({
   isOpen,
   onClose,
-  title,
   overview,
   info,
-  renderGroups
+  renderGroups,
 }: ProjectPageProps) {
   const [activeGroup, setActiveGroup] = useState(0);
   const sectionRefs = useRef<(HTMLDivElement | null)[]>([]);
-
-  useEffect(() => {
-  if (renderGroups?.[0]?.images?.[0]?.src) {
-    const img = new Image();
-    img.src = renderGroups[0].images[0].src;
-  }
-}, [renderGroups]);
-
-
-  /* ───────── DATA (MATCHES FRAMER STRUCTURE) ───────── */
-  // const renderGroups: RenderGroup[] = [
-  //   {
-  //     id: 1,
-  //     title: "Living, Dining & Kitchen",
-  //     description:
-  //       "The facade is covered with vertical gardens and natural green elements, giving the home a refreshing and eco-friendly look.",
-  //     images: [
-  //       { src: "/images/living1.jpg" },
-  //       { src: "/images/facade-2.jpg" },
-  //       { src: "/images/facade-3.jpg" },
-  //       { src: "/images/facade-4.jpg" },
-  //       { src: "/images/facade-5.jpg" },
-  //     ],
-  //   },
-  //   {
-  //     id: 2,
-  //     title: "Master Bedroom",
-  //     description:
-  //       "A refined contemporary bedroom featuring a warm neutral palette, elegant marble flooring, and seamless wall paneling. The space is anchored by a plush platform bed with rich burgundy accents, complemented by bespoke side tables and sculptural décor. Sleek wardrobes, minimalistic lighting, and curated textures create a luxurious yet serene ambience throughout the room.",
-  //     images: [
-  //       { src: "/images/ms-1.jpg" },
-  //       { src: "/images/ms-2.jpg" },
-  //       { src: "/images/ms-3.jpg" },
-  //       { src: "/images/ms-4.jpg" },
-  //     ],
-  //   },
-  //   {
-  //     id: 3,
-  //     title: "Son's Bedroom",
-  //     description:
-  //       "A modern, luxurious bedroom featuring a sculpted headboard wall, warm wood textures, soft beige tones, and elegant accent lighting. The space combines clean lines, marble flooring, and subtle decor to create a calm, sophisticated, and premium atmosphere",
-  //     images: [
-  //       { src: "/images/S-Sons-Bedroom-1.jpg" },
-  //       { src: "/images/S-Sons-Bedroom-2.jpg" },
-  //       { src: "/images/S-Sons-Bedroom-3.jpg" },
-  //       { src: "/images/S-Sons-Bedroom-4.jpg" },
-  //       { src: "/images/S-Sons-Bedroom-5.jpg" },
-  //       { src: "/images/S-Sons-Bedroom-6.jpg" },
-  //     ],
-  //   },
-  // ];
 
   /* ───────── ACTIVE SECTION TRACKER ───────── */
   useEffect(() => {
@@ -101,13 +48,9 @@ export default function VillaProjectPage({
 
       const observer = new IntersectionObserver(
         ([entry]) => {
-          if (entry.isIntersecting) {
-            setActiveGroup(index);
-          }
+          if (entry.isIntersecting) setActiveGroup(index);
         },
-        {
-          rootMargin: "-40% 0px -40% 0px",
-        }
+        { rootMargin: "-40% 0px -40% 0px" }
       );
 
       observer.observe(el);
@@ -119,10 +62,9 @@ export default function VillaProjectPage({
 
   if (!isOpen) return null;
 
-  /* ───────── RENDER ───────── */
   return (
     <motion.div
-      className="fixed inset-0 bg-black text-white z-50 overflow-y-auto overscroll-contain"
+      className="fixed inset-0 bg-black text-white z-50 overflow-y-auto"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
     >
@@ -145,107 +87,67 @@ export default function VillaProjectPage({
       {/* INTRO */}
       <section className="max-w-[1400px] mx-auto px-8 lg:px-12 py-28">
         <h1 className="text-5xl font-light mb-6">Project Overview</h1>
-        <p className="text-white/60 max-w-3xl">
-         {/* This 3BHK home is designed with a modern contemporary aesthetic, combining elegance with everyday functionality. A neutral palette, layered lighting, and premium finishes create a calm, spacious, and refined living environment. The layout is thoughtfully planned to ensure comfort, flow, and practicality for modern family living.
-          */}
-          {overview}
-        </p>
+        <p className="text-white/60 max-w-3xl">{overview}</p>
       </section>
 
-      {/* PROJECT INFO BLOCKS */}
-<section className="max-w-[1400px] mx-auto px-8 lg:px-12 -mt-10 pb-32">
-  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6">
-
-    <div className="bg-white/5 border border-white/10 rounded-xl px-6 py-5">
-      <p className="text-white/50 text-sm mb-1">Client</p>
-      <p className="text-white text-lg font-medium">{info.client}</p>
-    </div>
-
-    <div className="bg-white/5 border border-white/10 rounded-xl px-6 py-5">
-      <p className="text-white/50 text-sm mb-1">Project</p>
-      <p className="text-white text-lg font-medium">{info.projectType}</p>
-    </div>
-
-    <div className="bg-white/5 border border-white/10 rounded-xl px-6 py-5">
-      <p className="text-white/50 text-sm mb-1">Location</p>
-      <p className="text-white text-lg font-medium">{info.location}</p>
-    </div>
-
-    <div className="bg-white/5 border border-white/10 rounded-xl px-6 py-5">
-      <p className="text-white/50 text-sm mb-1">Area</p>
-      <p className="text-white text-lg font-medium">{info.area}</p>
-    </div>
-
-
-  </div>
-</section>
-
-
-      {/* FRAMER-STYLE EDITORIAL SECTIONS */}
-<section className="pb-32 overflow-hidden">
-  <div className="max-w-[1400px] mx-auto px-8 lg:px-12">
-    {renderGroups.map((group, index) => (
-      <div
-        key={group.id}
-        ref={(el) => (sectionRefs.current[index] = el)}
-        className="grid grid-cols-1 lg:grid-cols-[420px_1fr]"
-      >
-        {/* LEFT TEXT */}
-        <div className="lg:sticky lg:top-[18vh] h-fit pr-4 lg:pr-6">
-          <motion.div
-  initial={{ opacity: 0, y: 20 }}
-  whileInView={{ opacity: 1, y: 0 }}
-  viewport={{ once: true, margin: "-120px" }}
-  transition={{ duration: 0.45, ease: "easeOut" }}
->
-
-            <h2
-              className="text-white mb-4 font-light"
-              style={{
-                fontSize: "32px",
-                lineHeight: "1.3",
-                letterSpacing: "-0.01em",
-              }}
-            >
-              {group.title}
-            </h2>
-
-            <p
-              className="text-white/60 leading-relaxed"
-              style={{
-                fontSize: "15px",
-                lineHeight: "1.6",
-                maxWidth: "360px",
-              }}
-            >
-              {group.description}
-            </p>
-          </motion.div>
+      {/* PROJECT INFO */}
+      <section className="max-w-[1400px] mx-auto px-8 lg:px-12 -mt-10 pb-32">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6">
+          <Info label="Client" value={info.client} />
+          <Info label="Project" value={info.projectType} />
+          <Info label="Location" value={info.location} />
+          <Info label="Area" value={info.area} />
         </div>
+      </section>
 
-        {/* RIGHT IMAGES */}
-        <div className="border-l border-white/10 pl-4 lg:pl-6">
-          {group.images.map((img, i) => (
+      {/* GROOVE-STYLE EDITORIAL */}
+      <section className="pb-40 relative overflow-visible">
+        <div className="max-w-[1400px] mx-auto px-8 lg:px-12 space-y-32">
+          {renderGroups.map((group, index) => (
             <div
-              key={i}
-              className="w-full border-b border-white/10 last:border-b-0 flex justify-center pt-5 pb-0"
+              key={group.id}
+              ref={(el) => (sectionRefs.current[index] = el)}
+              className="grid grid-cols-1 lg:grid-cols-[420px_1fr] items-start"
             >
-             <img
-  src={img.src}
-  alt=""
-  loading="lazy"
-  decoding="async"
-  draggable={false}
-  className="w-full max-w-[620px] h-auto object-contain transition-opacity duration-300"
-/>
+              {/* LEFT TEXT — STICKY */}
+              <div className="hidden lg:block sticky top-[22vh] self-start pr-6">
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: "-120px" }}
+                  transition={{ duration: 0.45, ease: "easeOut" }}
+                >
+                  <h2 className="text-white mb-4 text-[32px] font-light leading-tight">
+                    {group.title}
+                  </h2>
+                  <p className="text-white/60 text-[15px] leading-relaxed max-w-[360px]">
+                    {group.description}
+                  </p>
+                </motion.div>
+              </div>
+
+              {/* RIGHT IMAGES */}
+              <div className="relative border-l border-white/10 pl-6">
+                {group.images.map((img, i) => (
+                  <div
+                    key={i}
+                    className="w-full border-b border-white/10 last:border-b-0 flex justify-center py-6"
+                  >
+                    <img
+                      src={img.src}
+                      alt=""
+                      loading="lazy"
+                      decoding="async"
+                      draggable={false}
+                      className="w-full max-w-[620px] h-auto object-contain"
+                    />
+                  </div>
+                ))}
+              </div>
             </div>
           ))}
         </div>
-      </div>
-    ))}
-  </div>
-</section>
-
+      </section>
 
       {/* CALL CTA */}
       <div className="fixed bottom-8 right-8 z-[60]">
@@ -261,8 +163,12 @@ export default function VillaProjectPage({
   );
 }
 
-
-
-
-
-
+/* ───────── SMALL COMPONENT ───────── */
+function Info({ label, value }: { label: string; value: string }) {
+  return (
+    <div className="bg-white/5 border border-white/10 rounded-xl px-6 py-5">
+      <p className="text-white/50 text-sm mb-1">{label}</p>
+      <p className="text-white text-lg font-medium">{value}</p>
+    </div>
+  );
+}
