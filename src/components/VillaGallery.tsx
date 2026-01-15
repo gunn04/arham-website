@@ -1,6 +1,6 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { useState, useEffect } from "react";
-import { X, Upload, ZoomIn } from "lucide-react";
+import { X, ZoomIn } from "lucide-react";
 
 interface VillaGalleryProps {
   isOpen: boolean;
@@ -19,13 +19,19 @@ const VillaGallery = ({ isOpen, onClose }: VillaGalleryProps) => {
     { id: 6, title: "Dining Area", image: "https://images.unsplash.com/photo-1449247709967-d4461a6a6103?w=1200", category: "Interior" }
   ];
 
-  /* 🔒 LOCK BACKGROUND SCROLL */
+  /* 🔒 HARD BODY SCROLL LOCK (iOS SAFE) */
   useEffect(() => {
-    if (isOpen) document.body.style.overflow = "hidden";
-    else document.body.style.overflow = "";
+    if (!isOpen) return;
+
+    const originalOverflow = document.body.style.overflow;
+    const originalTouchAction = document.body.style.touchAction;
+
+    document.body.style.overflow = "hidden";
+    document.body.style.touchAction = "none";
 
     return () => {
-      document.body.style.overflow = "";
+      document.body.style.overflow = originalOverflow;
+      document.body.style.touchAction = originalTouchAction;
     };
   }, [isOpen]);
 
@@ -56,6 +62,7 @@ const VillaGallery = ({ isOpen, onClose }: VillaGalleryProps) => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
+            onClick={(e) => e.stopPropagation()} // ⛔ stop backdrop click
           >
             {/* HEADER */}
             <div className="flex justify-between items-center p-6 border-b border-white/10">
@@ -70,10 +77,14 @@ const VillaGallery = ({ isOpen, onClose }: VillaGalleryProps) => {
               </button>
             </div>
 
-            {/* ✅ SCROLL CONTAINER */}
-            <div className="flex-1 overflow-y-auto overscroll-contain p-6">
+            {/* SCROLL AREA (iOS FIXED) */}
+            <div
+              className="flex-1 overflow-y-scroll overscroll-contain p-6"
+              style={{ WebkitOverflowScrolling: "touch" }}
+              onTouchMove={(e) => e.stopPropagation()}
+            >
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {villaRenders.map((render, index) => (
+                {villaRenders.map((render) => (
                   <motion.div
                     key={render.id}
                     initial={{ opacity: 0, y: 20 }}
@@ -120,7 +131,6 @@ const VillaGallery = ({ isOpen, onClose }: VillaGalleryProps) => {
                   src={selectedImage}
                   alt=""
                   className="max-w-full max-h-full object-contain rounded-lg"
-                  loading="eager"
                 />
               </motion.div>
             )}
