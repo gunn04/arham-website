@@ -1,4 +1,4 @@
-import type { RenderGroup } from "../ProjectPage"
+import type { RenderGroup } from "../ProjectPage";
 
 export const sachinrankaProject={
         title: "Mr. Sachin Ranka Residence",
@@ -64,7 +64,7 @@ export const sachinrankaProject={
                      ],
           },
         ] as RenderGroup[],
-      } 
+      };
 
 
        

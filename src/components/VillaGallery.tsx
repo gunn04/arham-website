@@ -7,6 +7,11 @@ interface VillaGalleryProps {
   onClose: () => void;
 }
 
+const isIOS =
+  typeof window !== "undefined" &&
+  /iPad|iPhone|iPod/.test(navigator.userAgent);
+
+
 const VillaGallery = ({ isOpen, onClose }: VillaGalleryProps) => {
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
 

@@ -15,7 +15,7 @@ interface ProjectInfo {
   projectType: string;
   location: string;
   area: string;
-  date: string;
+  date?: string;
 }
 
 interface ProjectPageProps {
@@ -38,30 +38,36 @@ export default function VillaProjectPage({
   const mobileRefs = useRef<(HTMLDivElement | null)[]>([]);
   const desktopRefs = useRef<(HTMLDivElement | null)[]>([]);
 
-  /* ───────── OBSERVER ───────── */
+  // ✅ iOS detection (CRITICAL FIX)
+  const isIOS =
+    typeof window !== "undefined" &&
+    /iPad|iPhone|iPod/.test(navigator.userAgent);
+
+  /* ───────── OBSERVER (DISABLED ON iOS) ───────── */
   useEffect(() => {
+    if (isIOS) return; // 🚫 prevent iPhone crash
+
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            const index =
-              mobileRefs.current.indexOf(entry.target as HTMLDivElement) !== -1
-                ? mobileRefs.current.indexOf(entry.target as HTMLDivElement)
-                : desktopRefs.current.indexOf(entry.target as HTMLDivElement);
+          if (!entry.isIntersecting) return;
 
-            if (index !== -1) setActiveIndex(index);
+          const index = desktopRefs.current.indexOf(
+            entry.target as HTMLDivElement
+          );
+
+          if (index !== -1) {
+            setActiveIndex(index);
           }
         });
       },
-      { rootMargin: "-45% 0px -45% 0px" }
+      { threshold: 0.5 }
     );
 
-    [...mobileRefs.current, ...desktopRefs.current].forEach(
-      (el) => el && observer.observe(el)
-    );
+    desktopRefs.current.forEach((el) => el && observer.observe(el));
 
     return () => observer.disconnect();
-  }, []);
+  }, [isIOS]);
 
   if (!isOpen) return null;
 
@@ -74,11 +80,15 @@ export default function VillaProjectPage({
       {/* HEADER */}
       <div className="sticky top-0 z-50 bg-black/80 backdrop-blur border-b border-white/10">
         <div className="max-w-[1400px] mx-auto px-6 lg:px-12 py-5 flex justify-between">
-          <button onClick={onClose} className="flex items-center gap-2 text-white/70">
+          <button
+            onClick={onClose}
+            className="flex items-center gap-2 text-white/70"
+          >
             <ArrowLeft size={18} /> Back
           </button>
+
           <span className="text-white/50">
-            {activeIndex + 1} / {renderGroups.length}
+            {isIOS ? "—" : activeIndex + 1} / {renderGroups.length}
           </span>
         </div>
       </div>
@@ -99,7 +109,7 @@ export default function VillaProjectPage({
         </div>
       </section>
 
-      {/* ───────── MOBILE — GROOVE STYLE ───────── */}
+      {/* ───────── MOBILE ───────── */}
       <section className="lg:hidden px-6">
         {renderGroups.map((group, index) => (
           <div
@@ -130,7 +140,7 @@ export default function VillaProjectPage({
         ))}
       </section>
 
-      {/* ───────── DESKTOP — STICKY ───────── */}
+      {/* ───────── DESKTOP ───────── */}
       <section className="hidden lg:block pb-40">
         <div className="max-w-[1400px] mx-auto px-12 space-y-32">
           {renderGroups.map((group, index) => (
@@ -140,7 +150,9 @@ export default function VillaProjectPage({
               className="grid grid-cols-[420px_1fr]"
             >
               <div className="sticky top-[22vh] h-fit pr-6">
-                <h2 className="text-[32px] font-light mb-4">{group.title}</h2>
+                <h2 className="text-[32px] font-light mb-4">
+                  {group.title}
+                </h2>
                 <p className="text-white/60 text-sm max-w-[360px]">
                   {group.description}
                 </p>
@@ -152,6 +164,7 @@ export default function VillaProjectPage({
                     key={i}
                     src={img.src}
                     className="w-full max-w-[620px] mx-auto py-6"
+                    loading="lazy"
                   />
                 ))}
               </div>
