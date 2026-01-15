@@ -17,7 +17,7 @@ export const SureshProject={
             title: "Living, Dining & Kitchen",
             description:
               "A refined open-plan space designed in warm neutral tones with soft textures and elegant wood finishes. The living area feels calm and inviting, seamlessly flowing into the dining and kitchen zones for a spacious, clutter-free experience. Subtle lighting, modern furniture, and balanced proportions create a timeless yet contemporary interior.",
-            images: [{ src: "/images/sul11.webp" },
+            images: [{ src: "/images/sul1.webp" },
                      { src: "/images/sul2.webp"},
                      { src: "/images/sul3.webp"},
                      { src: "/images/sul4.webp"},
