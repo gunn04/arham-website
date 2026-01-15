@@ -35,56 +35,39 @@ export default function VillaProjectPage({
   renderGroups,
 }: ProjectPageProps) {
   const [activeIndex, setActiveIndex] = useState(0);
+  const mobileRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const desktopRefs = useRef<(HTMLDivElement | null)[]>([]);
 
-  const mobileTriggers = useRef<(HTMLDivElement | null)[]>([]);
-  const desktopTriggers = useRef<(HTMLDivElement | null)[]>([]);
-
-  /* ───────── MOBILE OBSERVER ───────── */
+  /* ───────── OBSERVER ───────── */
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            const i = mobileTriggers.current.indexOf(
-              entry.target as HTMLDivElement
-            );
-            if (i !== -1) setActiveIndex(i);
+            const index =
+              mobileRefs.current.indexOf(entry.target as HTMLDivElement) !== -1
+                ? mobileRefs.current.indexOf(entry.target as HTMLDivElement)
+                : desktopRefs.current.indexOf(entry.target as HTMLDivElement);
+
+            if (index !== -1) setActiveIndex(index);
           }
         });
       },
       { rootMargin: "-45% 0px -45% 0px" }
     );
 
-    mobileTriggers.current.forEach((el) => el && observer.observe(el));
-    return () => observer.disconnect();
-  }, []);
-
-  /* ───────── DESKTOP OBSERVER ───────── */
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            const i = desktopTriggers.current.indexOf(
-              entry.target as HTMLDivElement
-            );
-            if (i !== -1) setActiveIndex(i);
-          }
-        });
-      },
-      { rootMargin: "-40% 0px -40% 0px" }
+    [...mobileRefs.current, ...desktopRefs.current].forEach(
+      (el) => el && observer.observe(el)
     );
 
-    desktopTriggers.current.forEach((el) => el && observer.observe(el));
     return () => observer.disconnect();
   }, []);
 
   if (!isOpen) return null;
-  const activeGroup = renderGroups[activeIndex];
 
   return (
     <motion.div
-      className="fixed inset-0 bg-black text-white z-50 overflow-y-scroll overscroll-contain"
+      className="fixed inset-0 bg-black text-white z-50 overflow-y-auto"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
     >
@@ -100,15 +83,15 @@ export default function VillaProjectPage({
         </div>
       </div>
 
-      {/* INTRO */}
-      <section className="max-w-[1400px] mx-auto px-6 lg:px-12 py-28">
-        <h1 className="text-5xl font-light mb-6">Project Overview</h1>
+      {/* OVERVIEW */}
+      <section className="max-w-[1400px] mx-auto px-6 lg:px-12 py-24">
+        <h1 className="text-4xl lg:text-5xl font-light mb-6">Overview</h1>
         <p className="text-white/60 max-w-3xl">{overview}</p>
       </section>
 
       {/* INFO */}
-      <section className="max-w-[1400px] mx-auto px-6 lg:px-12 pb-32">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6">
+      <section className="max-w-[1400px] mx-auto px-6 lg:px-12 pb-28">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           <Info label="Client" value={info.client} />
           <Info label="Project" value={info.projectType} />
           <Info label="Location" value={info.location} />
@@ -116,59 +99,48 @@ export default function VillaProjectPage({
         </div>
       </section>
 
-      {/* ================= MOBILE — GROOVE ================= */}
-      <section className="lg:hidden relative">
-        <div className="h-[120px]" />
-
-        <div className="relative">
-          {/* STICKY TEXT */}
-          <div className="sticky top-[72px] z-40 bg-black px-6 pt-6 pb-4">
-            <h2 className="text-[26px] font-light leading-tight">
-              {activeGroup?.title}
+      {/* ───────── MOBILE — GROOVE STYLE ───────── */}
+      <section className="lg:hidden px-6">
+        {renderGroups.map((group, index) => (
+          <div
+            key={group.id}
+            ref={(el) => (mobileRefs.current[index] = el)}
+            className="mb-[90vh]"
+          >
+            <h2 className="text-[26px] font-light leading-tight mb-3">
+              {group.title}
             </h2>
-            <p className="text-white/60 mt-2 text-sm max-w-[90%]">
-              {activeGroup?.description}
-            </p>
-          </div>
 
-          {/* SCROLL IMAGES */}
-          <div className="px-4 pt-6 pb-40">
-            {renderGroups.map((group, index) => (
-              <div key={group.id} className="mb-[85vh]">
-                <div
-                  ref={(el) => (mobileTriggers.current[index] = el)}
-                  className="h-[2px]"
+            <p className="text-white/60 text-sm mb-8 max-w-[90%]">
+              {group.description}
+            </p>
+
+            <div className="space-y-6">
+              {group.images.map((img, i) => (
+                <img
+                  key={i}
+                  src={img.src}
+                  className="w-full rounded-xl object-cover"
+                  loading="lazy"
+                  decoding="async"
                 />
-                <div className="space-y-6 mt-6">
-                  {group.images.map((img, i) => (
-                    <img
-                      key={i}
-                      src={img.src}
-                      loading="lazy"
-                      decoding="async"
-                      className="w-full rounded-xl object-cover"
-                    />
-                  ))}
-                </div>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
-        </div>
+        ))}
       </section>
 
-      {/* ================= DESKTOP ================= */}
+      {/* ───────── DESKTOP — STICKY ───────── */}
       <section className="hidden lg:block pb-40">
         <div className="max-w-[1400px] mx-auto px-12 space-y-32">
           {renderGroups.map((group, index) => (
             <div
               key={group.id}
-              ref={(el) => (desktopTriggers.current[index] = el)}
+              ref={(el) => (desktopRefs.current[index] = el)}
               className="grid grid-cols-[420px_1fr]"
             >
               <div className="sticky top-[22vh] h-fit pr-6">
-                <h2 className="text-[32px] font-light mb-4">
-                  {group.title}
-                </h2>
+                <h2 className="text-[32px] font-light mb-4">{group.title}</h2>
                 <p className="text-white/60 text-sm max-w-[360px]">
                   {group.description}
                 </p>
@@ -192,9 +164,10 @@ export default function VillaProjectPage({
       <div className="fixed bottom-8 right-8 z-[60]">
         <a
           href="tel:9632123705"
-          className="px-6 py-3 bg-white text-black rounded-full shadow-xl"
+          className="flex items-center gap-3 px-6 py-3 bg-white text-black rounded-full shadow-xl"
         >
           <Phone size={18} />
+          <span className="text-sm font-medium">Consult Us</span>
         </a>
       </div>
     </motion.div>
