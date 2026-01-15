@@ -45,12 +45,14 @@ export default function VillaProjectPage({
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            const i = mobileTriggers.current.indexOf(entry.target as HTMLDivElement);
+            const i = mobileTriggers.current.indexOf(
+              entry.target as HTMLDivElement
+            );
             if (i !== -1) setActiveIndex(i);
           }
         });
       },
-      { rootMargin: "-30% 0px -60% 0px" }
+      { rootMargin: "-45% 0px -45% 0px" }
     );
 
     mobileTriggers.current.forEach((el) => el && observer.observe(el));
@@ -63,7 +65,9 @@ export default function VillaProjectPage({
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            const i = desktopTriggers.current.indexOf(entry.target as HTMLDivElement);
+            const i = desktopTriggers.current.indexOf(
+              entry.target as HTMLDivElement
+            );
             if (i !== -1) setActiveIndex(i);
           }
         });
@@ -114,31 +118,41 @@ export default function VillaProjectPage({
 
       {/* ================= MOBILE — GROOVE ================= */}
       <section className="lg:hidden relative">
-        {/* FIXED TEXT */}
-        <div className="fixed top-[72px] left-0 right-0 z-40 bg-black px-6 py-5">
-          <h2 className="text-2xl font-light">{activeGroup?.title}</h2>
-          <p className="text-white/60 mt-2 text-sm max-w-md">
-            {activeGroup?.description}
-          </p>
-        </div>
+        <div className="h-[120px]" />
 
-        {/* SCROLL */}
-        <div className="pt-[160px] px-4 pb-40">
-          {renderGroups.map((group, index) => (
-            <div key={group.id} className="mb-[70vh]">
-              <div
-                ref={(el) => (mobileTriggers.current[index] = el)}
-                className="h-[1px]"
-              />
-              {group.images.map((img, i) => (
-                <img
-                  key={i}
-                  src={img.src}
-                  className="w-full rounded-xl object-cover mb-6"
+        <div className="relative">
+          {/* STICKY TEXT */}
+          <div className="sticky top-[72px] z-40 bg-black px-6 pt-6 pb-4">
+            <h2 className="text-[26px] font-light leading-tight">
+              {activeGroup?.title}
+            </h2>
+            <p className="text-white/60 mt-2 text-sm max-w-[90%]">
+              {activeGroup?.description}
+            </p>
+          </div>
+
+          {/* SCROLL IMAGES */}
+          <div className="px-4 pt-6 pb-40">
+            {renderGroups.map((group, index) => (
+              <div key={group.id} className="mb-[85vh]">
+                <div
+                  ref={(el) => (mobileTriggers.current[index] = el)}
+                  className="h-[2px]"
                 />
-              ))}
-            </div>
-          ))}
+                <div className="space-y-6 mt-6">
+                  {group.images.map((img, i) => (
+                    <img
+                      key={i}
+                      src={img.src}
+                      loading="lazy"
+                      decoding="async"
+                      className="w-full rounded-xl object-cover"
+                    />
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 
@@ -152,7 +166,9 @@ export default function VillaProjectPage({
               className="grid grid-cols-[420px_1fr]"
             >
               <div className="sticky top-[22vh] h-fit pr-6">
-                <h2 className="text-[32px] font-light mb-4">{group.title}</h2>
+                <h2 className="text-[32px] font-light mb-4">
+                  {group.title}
+                </h2>
                 <p className="text-white/60 text-sm max-w-[360px]">
                   {group.description}
                 </p>
@@ -174,7 +190,10 @@ export default function VillaProjectPage({
 
       {/* CTA */}
       <div className="fixed bottom-8 right-8 z-[60]">
-        <a href="tel:9632123705" className="px-6 py-3 bg-white text-black rounded-full">
+        <a
+          href="tel:9632123705"
+          className="px-6 py-3 bg-white text-black rounded-full shadow-xl"
+        >
           <Phone size={18} />
         </a>
       </div>
