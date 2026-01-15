@@ -36,10 +36,12 @@ export const sachinrankaProject = {
             title: "Master Bedroom",
             description:
               "A refined contemporary bedroom featuring a warm neutral palette, elegant marble flooring, and seamless wall paneling. The space is anchored by a plush platform bed with rich burgundy accents, complemented by bespoke side tables and sculptural décor. Sleek wardrobes, minimalistic lighting, and curated textures create a luxurious yet serene ambience throughout the room.",
-            images: [{ src: "/images/ms-1.webp" },
+            images: [
+                     { src: "/images/ms-1.webp" },
                      { src: "/images/ms-2.webp"},
                      { src: "/images/ms-3.webp"},
-                     { src: "/images/ms-4.webp"}],
+                     { src: "/images/ms-4.webp"},
+                    ],
           },
           {
             id: 3,
@@ -51,7 +53,8 @@ export const sachinrankaProject = {
                      { src: "/images/S-Sons-Bedroom-3.webp"},
                      { src: "/images/S-Sons-Bedroom-4.webp"},
                      { src: "/images/S-Sons-Bedroom-5.webp"},
-                     { src: "/images/S-Sons-Bedroom-6.webp"},],
+                     { src: "/images/S-Sons-Bedroom-6.webp"}, 
+                    ],
           },
           {
             id: 4,
@@ -64,7 +67,7 @@ export const sachinrankaProject = {
                      ],
           },
         ] as RenderGroup[],
-      } 
+      };
 
 
        
