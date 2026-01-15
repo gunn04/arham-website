@@ -1,4 +1,4 @@
-import type { RenderGroup } from "../ProjectPage";
+import type { RenderGroup } from "../ProjectPage"
 
 export const sachinrankaProject={
         title: "Mr. Sachin Ranka Residence",
@@ -48,20 +48,23 @@ export const sachinrankaProject={
               "A modern, luxurious bedroom featuring a sculpted headboard wall, warm wood textures, soft beige tones, and elegant accent lighting. The space combines clean lines, marble flooring, and subtle decor to create a calm, sophisticated, and premium atmosphere",
             images: [{ src: "/images/ss1.webp" },
                      { src: "/images/ss2.webp"},
-                     
+                     { src: "/images/ss3.webp"},  
+                     { src: "/images/ss4.webp"},
+                     { src: "/images/ss5.webp"},
+                     { src: "/images/ss6.webp"},],
           },
           {
             id: 4,
             title: "Daughter's Bedroom",
             description:
               "A serene and elegant daughter’s bedroom featuring a stunning marble-inspired accent wall with subtle lighting that adds depth and sophistication. The soft neutral palette, plush bedding, and curved furniture details create a warm, feminine ambience. Ample natural light, seamless storage, and a custom window-side ledge complete the space with both style and functionality",
-            images: [{ src: "/images/Krishi1.webp" },
-                     { src: "/images/Krishi2.webp"},
-                     { src: "/images/Krishi3.webp"},
+            images: [{ src: "/images/k1.webp" },
+                     { src: "/images/k2.webp"},
+                     { src: "/images/k3.webp"},
                      ],
           },
         ] as RenderGroup[],
-      };
+      } 
 
 
        
