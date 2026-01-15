@@ -1,6 +1,6 @@
 import type { RenderGroup } from "../ProjectPage";
 
-export const sachinrankaProject={
+export const sachinrankaProject = {
         title: "Mr. Sachin Ranka Residence",
         overview:
           "A modern luxury 3BHK residence blending elegance, comfort, and functionality.",

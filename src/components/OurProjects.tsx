@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { prithvirajProject } from "./projects/prithviraj";
-import { SachinRankaProject } from "./projects/sachinranka";
+import { sachinrankaProject } from "./projects/sachinranka";
 import { SumitRankaProject } from "./projects/Sumit";
 import { PrinceProject } from "./projects/Prince";
 import { niteshProject } from "./projects/nitesh";
