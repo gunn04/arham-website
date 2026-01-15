@@ -7,10 +7,7 @@ export interface RenderGroup {
   id: number;
   title: string;
   description: string;
-  images: {
-    src: string;
-    height?: string;
-  }[];
+  images: { src: string }[];
 }
 
 interface ProjectInfo {
@@ -24,7 +21,6 @@ interface ProjectInfo {
 interface ProjectPageProps {
   isOpen: boolean;
   onClose: () => void;
-  title: string;
   overview: string;
   info: ProjectInfo;
   renderGroups: RenderGroup[];
@@ -38,29 +34,31 @@ export default function VillaProjectPage({
   info,
   renderGroups,
 }: ProjectPageProps) {
-  const [activeGroup, setActiveGroup] = useState(0);
-  const sectionRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const [activeIndex, setActiveIndex] = useState(0);
+  const triggerRefs = useRef<(HTMLDivElement | null)[]>([]);
 
-  /* ───────── ACTIVE SECTION TRACKER ───────── */
+  /* ───────── SCROLL TRACKER (GROOVE LOGIC) ───────── */
   useEffect(() => {
-    const observers = sectionRefs.current.map((el, index) => {
-      if (!el) return null;
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const index = triggerRefs.current.indexOf(
+              entry.target as HTMLDivElement
+            );
+            if (index !== -1) setActiveIndex(index);
+          }
+        });
+      },
+      { rootMargin: "-45% 0px -45% 0px" }
+    );
 
-      const observer = new IntersectionObserver(
-        ([entry]) => {
-          if (entry.isIntersecting) setActiveGroup(index);
-        },
-        { rootMargin: "-40% 0px -40% 0px" }
-      );
-
-      observer.observe(el);
-      return observer;
-    });
-
-    return () => observers.forEach((o) => o?.disconnect());
+    triggerRefs.current.forEach((el) => el && observer.observe(el));
+    return () => observer.disconnect();
   }, []);
 
   if (!isOpen) return null;
+  const activeGroup = renderGroups[activeIndex];
 
   return (
     <motion.div
@@ -70,28 +68,24 @@ export default function VillaProjectPage({
     >
       {/* HEADER */}
       <div className="sticky top-0 z-50 bg-black/80 backdrop-blur border-b border-white/10">
-        <div className="max-w-[1400px] mx-auto px-8 lg:px-12 py-5 flex justify-between">
-          <button
-            onClick={onClose}
-            className="flex items-center gap-2 text-white/70 hover:text-white"
-          >
-            <ArrowLeft size={18} />
-            Back
+        <div className="max-w-[1400px] mx-auto px-6 lg:px-12 py-5 flex justify-between">
+          <button onClick={onClose} className="flex items-center gap-2 text-white/70">
+            <ArrowLeft size={18} /> Back
           </button>
           <span className="text-white/50">
-            {activeGroup + 1} / {renderGroups.length}
+            {activeIndex + 1} / {renderGroups.length}
           </span>
         </div>
       </div>
 
       {/* INTRO */}
-      <section className="max-w-[1400px] mx-auto px-8 lg:px-12 py-28">
+      <section className="max-w-[1400px] mx-auto px-6 lg:px-12 py-28">
         <h1 className="text-5xl font-light mb-6">Project Overview</h1>
         <p className="text-white/60 max-w-3xl">{overview}</p>
       </section>
 
-      {/* PROJECT INFO */}
-      <section className="max-w-[1400px] mx-auto px-8 lg:px-12 -mt-10 pb-32">
+      {/* INFO */}
+      <section className="max-w-[1400px] mx-auto px-6 lg:px-12 pb-32">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6">
           <Info label="Client" value={info.client} />
           <Info label="Project" value={info.projectType} />
@@ -100,59 +94,61 @@ export default function VillaProjectPage({
         </div>
       </section>
 
-      {/* GROOVE-STYLE EDITORIAL */}
-      <section className="pb-40 relative overflow-visible">
-        <div className="max-w-[1400px] mx-auto px-8 lg:px-12 space-y-32">
+      {/* ================= MOBILE — GROOVE EXACT ================= */}
+      <section className="lg:hidden relative">
+        {/* FIXED TEXT */}
+        <div className="fixed top-[72px] left-0 right-0 z-40 bg-black px-6 py-6">
+          <h2 className="text-2xl font-light">{activeGroup?.title}</h2>
+          <p className="text-white/60 mt-2 text-sm max-w-md">
+            {activeGroup?.description}
+          </p>
+        </div>
+
+        {/* SCROLL IMAGES */}
+        <div className="pt-[200px] space-y-[80vh] px-4 pb-40">
           {renderGroups.map((group, index) => (
             <div
               key={group.id}
-              ref={(el) => (sectionRefs.current[index] = el)}
-              className="grid grid-cols-1 lg:grid-cols-[420px_1fr] items-start"
+              ref={(el) => (triggerRefs.current[index] = el)}
+              className="space-y-6"
             >
-              {/* LEFT TEXT — STICKY */}
-              <div className="
-  sticky
-  top-[72px]
-  lg:top-[22vh]
-  self-start
-  bg-black
-  z-20
-  pr-4
-  lg:pr-6
-  py-6
-">
+              {group.images.map((img, i) => (
+                <img
+                  key={i}
+                  src={img.src}
+                  className="w-full rounded-xl object-cover"
+                />
+              ))}
+            </div>
+          ))}
+        </div>
+      </section>
 
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, margin: "-120px" }}
-                  transition={{ duration: 0.45, ease: "easeOut" }}
-                >
-                  <h2 className="text-white mb-4 text-[32px] font-light leading-tight">
-                    {group.title}
-                  </h2>
-                  <p className="text-white/60 text-[15px] leading-relaxed max-w-[360px]">
-                    {group.description}
-                  </p>
-                </motion.div>
+      {/* ================= DESKTOP — STICKY ================= */}
+      <section className="hidden lg:block pb-40">
+        <div className="max-w-[1400px] mx-auto px-12 space-y-32">
+          {renderGroups.map((group, index) => (
+            <div
+              key={group.id}
+              ref={(el) => (triggerRefs.current[index] = el)}
+              className="grid grid-cols-[420px_1fr]"
+            >
+              {/* LEFT TEXT */}
+              <div className="sticky top-[22vh] h-fit pr-6">
+                <h2 className="text-[32px] font-light mb-4">{group.title}</h2>
+                <p className="text-white/60 text-sm max-w-[360px]">
+                  {group.description}
+                </p>
               </div>
 
-              {/* RIGHT IMAGES */}
-              <div className="relative lg:border-l border-white/10 pl-0 lg:pl-6">
+              {/* IMAGES */}
+              <div className="border-l border-white/10 pl-6">
                 {group.images.map((img, i) => (
-                  <div
+                  <img
                     key={i}
-                    className="w-full border-b border-white/10 last:border-b-0 flex justify-center py-6"
-                  >
-                    <img
-                      src={img.src}
-                      alt=""
-                      loading="lazy"
-                      decoding="async"
-                      draggable={false}
-                      className="w-full max-w-[620px] h-auto object-contain"
-                    />
-                  </div>
+                    src={img.src}
+                    className="w-full max-w-[620px] mx-auto py-6"
+                  />
                 ))}
               </div>
             </div>
@@ -160,25 +156,21 @@ export default function VillaProjectPage({
         </div>
       </section>
 
-      {/* CALL CTA */}
+      {/* CTA */}
       <div className="fixed bottom-8 right-8 z-[60]">
-        <a
-          href="tel:9632123705"
-          className="flex items-center gap-3 px-6 py-3 bg-white text-black rounded-full shadow-xl hover:scale-105 transition"
-        >
+        <a href="tel:9632123705" className="px-6 py-3 bg-white text-black rounded-full">
           <Phone size={18} />
-          <span className="text-sm font-medium">Consult Us</span>
         </a>
       </div>
     </motion.div>
   );
 }
 
-/* ───────── SMALL COMPONENT ───────── */
+/* ───────── INFO CARD ───────── */
 function Info({ label, value }: { label: string; value: string }) {
   return (
     <div className="bg-white/5 border border-white/10 rounded-xl px-6 py-5">
-      <p className="text-white/50 text-sm mb-1">{label}</p>
+      <p className="text-white/50 text-sm">{label}</p>
       <p className="text-white text-lg font-medium">{value}</p>
     </div>
   );
