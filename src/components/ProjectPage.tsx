@@ -35,25 +35,43 @@ export default function VillaProjectPage({
   renderGroups,
 }: ProjectPageProps) {
   const [activeIndex, setActiveIndex] = useState(0);
-  const triggerRefs = useRef<(HTMLDivElement | null)[]>([]);
 
-  /* ───────── SCROLL TRACKER (GROOVE LOGIC) ───────── */
+  const mobileTriggers = useRef<(HTMLDivElement | null)[]>([]);
+  const desktopTriggers = useRef<(HTMLDivElement | null)[]>([]);
+
+  /* ───────── MOBILE OBSERVER ───────── */
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            const index = triggerRefs.current.indexOf(
-              entry.target as HTMLDivElement
-            );
-            if (index !== -1) setActiveIndex(index);
+            const i = mobileTriggers.current.indexOf(entry.target as HTMLDivElement);
+            if (i !== -1) setActiveIndex(i);
           }
         });
       },
-      { rootMargin: "-45% 0px -45% 0px" }
+      { rootMargin: "-30% 0px -60% 0px" }
     );
 
-    triggerRefs.current.forEach((el) => el && observer.observe(el));
+    mobileTriggers.current.forEach((el) => el && observer.observe(el));
+    return () => observer.disconnect();
+  }, []);
+
+  /* ───────── DESKTOP OBSERVER ───────── */
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const i = desktopTriggers.current.indexOf(entry.target as HTMLDivElement);
+            if (i !== -1) setActiveIndex(i);
+          }
+        });
+      },
+      { rootMargin: "-40% 0px -40% 0px" }
+    );
+
+    desktopTriggers.current.forEach((el) => el && observer.observe(el));
     return () => observer.disconnect();
   }, []);
 
@@ -94,29 +112,29 @@ export default function VillaProjectPage({
         </div>
       </section>
 
-      {/* ================= MOBILE — GROOVE EXACT ================= */}
+      {/* ================= MOBILE — GROOVE ================= */}
       <section className="lg:hidden relative">
         {/* FIXED TEXT */}
-        <div className="fixed top-[72px] left-0 right-0 z-40 bg-black px-6 py-6">
+        <div className="fixed top-[72px] left-0 right-0 z-40 bg-black px-6 py-5">
           <h2 className="text-2xl font-light">{activeGroup?.title}</h2>
           <p className="text-white/60 mt-2 text-sm max-w-md">
             {activeGroup?.description}
           </p>
         </div>
 
-        {/* SCROLL IMAGES */}
-        <div className="pt-[200px] space-y-[80vh] px-4 pb-40">
+        {/* SCROLL */}
+        <div className="pt-[160px] px-4 pb-40">
           {renderGroups.map((group, index) => (
-            <div
-              key={group.id}
-              ref={(el) => (triggerRefs.current[index] = el)}
-              className="space-y-6"
-            >
+            <div key={group.id} className="mb-[70vh]">
+              <div
+                ref={(el) => (mobileTriggers.current[index] = el)}
+                className="h-[1px]"
+              />
               {group.images.map((img, i) => (
                 <img
                   key={i}
                   src={img.src}
-                  className="w-full rounded-xl object-cover"
+                  className="w-full rounded-xl object-cover mb-6"
                 />
               ))}
             </div>
@@ -124,16 +142,15 @@ export default function VillaProjectPage({
         </div>
       </section>
 
-      {/* ================= DESKTOP — STICKY ================= */}
+      {/* ================= DESKTOP ================= */}
       <section className="hidden lg:block pb-40">
         <div className="max-w-[1400px] mx-auto px-12 space-y-32">
           {renderGroups.map((group, index) => (
             <div
               key={group.id}
-              ref={(el) => (triggerRefs.current[index] = el)}
+              ref={(el) => (desktopTriggers.current[index] = el)}
               className="grid grid-cols-[420px_1fr]"
             >
-              {/* LEFT TEXT */}
               <div className="sticky top-[22vh] h-fit pr-6">
                 <h2 className="text-[32px] font-light mb-4">{group.title}</h2>
                 <p className="text-white/60 text-sm max-w-[360px]">
@@ -141,7 +158,6 @@ export default function VillaProjectPage({
                 </p>
               </div>
 
-              {/* IMAGES */}
               <div className="border-l border-white/10 pl-6">
                 {group.images.map((img, i) => (
                   <img
@@ -166,7 +182,7 @@ export default function VillaProjectPage({
   );
 }
 
-/* ───────── INFO CARD ───────── */
+/* INFO CARD */
 function Info({ label, value }: { label: string; value: string }) {
   return (
     <div className="bg-white/5 border border-white/10 rounded-xl px-6 py-5">
