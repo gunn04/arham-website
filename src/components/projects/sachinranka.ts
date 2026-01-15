@@ -1,4 +1,4 @@
-import type { RenderGroup } from "../ProjectPage"
+import type { RenderGroup } from "../ProjectPage";
 
 export const SachinRankaProject={
         title: "Mr. Sachin Ranka Residence",
