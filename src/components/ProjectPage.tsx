@@ -43,6 +43,14 @@ export default function VillaProjectPage({
   const [activeGroup, setActiveGroup] = useState(0);
   const sectionRefs = useRef<(HTMLDivElement | null)[]>([]);
 
+  useEffect(() => {
+  if (renderGroups?.[0]?.images?.[0]?.src) {
+    const img = new Image();
+    img.src = renderGroups[0].images[0].src;
+  }
+}, [renderGroups]);
+
+
   /* ───────── DATA (MATCHES FRAMER STRUCTURE) ───────── */
   // const renderGroups: RenderGroup[] = [
   //   {
@@ -185,12 +193,12 @@ export default function VillaProjectPage({
         {/* LEFT TEXT */}
         <div className="lg:sticky lg:top-[18vh] h-fit pr-4 lg:pr-6">
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="w-full"
-          >
+  initial={{ opacity: 0, y: 20 }}
+  whileInView={{ opacity: 1, y: 0 }}
+  viewport={{ once: true, margin: "-120px" }}
+  transition={{ duration: 0.45, ease: "easeOut" }}
+>
+
             <h2
               className="text-white mb-4 font-light"
               style={{
@@ -222,11 +230,13 @@ export default function VillaProjectPage({
               key={i}
               className="w-full border-b border-white/10 last:border-b-0 flex justify-center py-6"
             >
-              <img
-                src={img.src}
-                alt=""
-                className="w-full max-w-[620px] h-auto object-contain"
-              />
+             <img
+  src={img.src}
+  alt=""
+  loading="lazy"
+  decoding="async"
+  className="w-full max-w-[620px] h-auto object-contain transition-opacity duration-300"
+/>
             </div>
           ))}
         </div>
