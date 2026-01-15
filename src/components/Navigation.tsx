@@ -1,11 +1,14 @@
-import {
-  motion,
-  AnimatePresence,
-  useScroll,
-  useMotionValueEvent,
-} from "framer-motion";
+import { motion, AnimatePresence, useScroll, useMotionValueEvent } from "framer-motion";
 import { useState } from "react";
 import { Menu, X } from "lucide-react";
+
+const sections = [
+  { label: "Home", id: "home" },
+  { label: "About", id: "about" },
+  { label: "Services", id: "services" },
+  { label: "Projects", id: "projects" },
+  { label: "Contact", id: "contact" },
+];
 
 const Navigation = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -16,24 +19,12 @@ const Navigation = () => {
     setIsScrolled(latest > 40);
   });
 
-  const menuItems = [
-    { label: "Home", id: "home" },
-    { label: "About", id: "about" },
-    { label: "Services", id: "services" },
-    { label: "Projects", id: "projects" },
-    { label: "Contact", id: "contact" },
-  ];
-
-  const scrollToSection = (id: string) => {
+  const scrollTo = (id: string) => {
     const el = document.getElementById(id);
     if (!el) return;
 
+    el.scrollIntoView({ behavior: "smooth", block: "start" });
     setMobileOpen(false);
-
-    // Safari-safe smooth scroll (NO HASH)
-    requestAnimationFrame(() => {
-      el.scrollIntoView({ behavior: "smooth", block: "start" });
-    });
   };
 
   return (
@@ -59,14 +50,14 @@ const Navigation = () => {
               src="/images/ADS.webp"
               alt="logo"
               className="h-14 cursor-pointer"
-              onClick={() => scrollToSection("home")}
+              onClick={() => scrollTo("home")}
             />
 
             <div className="flex items-center space-x-10">
-              {menuItems.map((item) => (
+              {sections.map((item) => (
                 <button
-                  key={item.label}
-                  onClick={() => scrollToSection(item.id)}
+                  key={item.id}
+                  onClick={() => scrollTo(item.id)}
                   className="text-white/80 hover:text-white text-lg font-light tracking-wide"
                 >
                   {item.label}
@@ -84,7 +75,12 @@ const Navigation = () => {
             <Menu className="w-7 h-7 text-white" />
           </button>
 
-          <img src="/images/ADS.webp" alt="logo" className="h-10" />
+          <img
+            src="/images/ADS.webp"
+            alt="logo"
+            className="h-10"
+            onClick={() => scrollTo("home")}
+          />
         </div>
 
         <AnimatePresence>
@@ -108,10 +104,10 @@ const Navigation = () => {
                 transition={{ delay: 0.1 }}
                 className="h-full flex flex-col justify-center px-10 space-y-8"
               >
-                {menuItems.map((item, i) => (
+                {sections.map((item, i) => (
                   <motion.button
-                    key={item.label}
-                    onClick={() => scrollToSection(item.id)}
+                    key={item.id}
+                    onClick={() => scrollTo(item.id)}
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.15 + i * 0.08 }}
