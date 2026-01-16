@@ -20,7 +20,7 @@ export const sumitrankaProject={
             images: [{ src: "/images/du.webp" },
                      { src: "/images/du2.webp"},
                      { src: "/images/du3.webp"},
-                     { src: "/images/du4.webp"}],
+                     ],
           },
           {
             id: 2,
