@@ -21,8 +21,13 @@ export const sachinrankaProject={
                     { src: "/images/tem2.webp"},
                     { src: "/images/tem3.webp"}, 
                     { src: "/images/tem4.webp"},
-                    
-                    
+                    { src: "/images/tem5.webp"},
+                    { src: "/images/d10.webp"},
+                    { src: "/images/d6.webp"},
+                    { src: "/images/d7.webp"},
+                    { src: "/images/d8.webp"},
+                    { src: "/images/d9.webp"},
+                    { src: "/images/d11.webp"},
                      ],
           },
         
