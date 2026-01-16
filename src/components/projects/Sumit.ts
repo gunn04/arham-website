@@ -16,7 +16,7 @@ export const sumitrankaProject={
             id: 1,
             title: "Living, Dining & Kitchen",
             description:
-              "A refined master bedroom styled with a sophisticated neutral palette, featuring a sculpted upholstered bed set against a textured vertical panel backdrop with integrated lighting. Warm wood finishes, soft drapery, and elegant curved furniture elements create a balanced blend of luxury and comfort. The space is further elevated by marble flooring, minimalist artwork, and thoughtfully curated accent pieces.",
+              "An elegant open-plan living and dining space designed with a harmonious palette of soft greys, warm neutrals, and subtle metallic accents. Sculpted wall art and a contemporary chandelier create visual interest, while plush seating and clean-lined furniture ensure comfort and functionality. Floor-to-ceiling curtains allow natural light to gently filter in, enhancing the airy ambience. The seamless flow between the living and dining zones reflects a perfect balance of luxury, modern design, and everyday practicality.",
             images: [{ src: "/images/d1.webp" },
                      { src: "/images/d2.webp"},
                      { src: "/images/d3.webp"},
