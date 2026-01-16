@@ -17,13 +17,10 @@ export const sachinrankaProject={
             title: "Living, Dining & Kitchen",
             description:
               "A refined contemporary bedroom featuring a warm neutral palette, elegant marble flooring, and seamless wall paneling. The space is anchored by a plush platform bed with rich burgundy accents, complemented by bespoke side tables and sculptural décor. Sleek wardrobes, minimalistic lighting, and curated textures create a luxurious yet serene ambience throughout the room.",
-            images: [{ src: "/images/tem.webp" },
-                      { src: "/images/tem1.webp"},
-                      { src: "/images/tem2.webp"},
-                      { src: "/images/tem3.webp"}, 
-                      { src: "/images/tem4.webp"},
-                      { src: "/images/tem5.webp"},
-                      { src: "/images/tem6.webp"},
+            images: [{ src: "/images/tem.webp"},
+                    { src: "/images/tem2.webp"},
+                    { src: "/images/tem3.webp"}, 
+                    { src: "/images/tem4.webp"},
                        
                      ],
           },
