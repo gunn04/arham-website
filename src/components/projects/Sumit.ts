@@ -12,6 +12,16 @@ export const sumitrankaProject={
           
         },
         renderGroups: [
+        {
+            id: 1,
+            title: "Living, Dining & Kitchen",
+            description:
+              "A refined master bedroom styled with a sophisticated neutral palette, featuring a sculpted upholstered bed set against a textured vertical panel backdrop with integrated lighting. Warm wood finishes, soft drapery, and elegant curved furniture elements create a balanced blend of luxury and comfort. The space is further elevated by marble flooring, minimalist artwork, and thoughtfully curated accent pieces.",
+            images: [{ src: "/images/du.webp" },
+                     { src: "/images/du2.webp"},
+                     { src: "/images/du3.webp"},
+                     { src: "/images/du4.webp"}],
+          },
           {
             id: 2,
             title: "Master Bedroom",
