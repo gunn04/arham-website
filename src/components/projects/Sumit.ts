@@ -13,23 +13,6 @@ export const sumitrankaProject={
         },
         renderGroups: [
           {
-            id: 1,
-            title: "Living, Dining & Kitchen",
-            description:
-              "A thoughtfully curated open-plan space where elegance meets functionality. Natural textures, muted palettes, and contemporary lighting elements enhance the sense of flow, creating a calm yet elevated living experience.",
-            images: [{ src: "/images/Sl.webp" },
-                     { src: "/images/sl2.webp"},
-                     { src: "/images/sl4.webp"},
-                     { src: "/images/sl5.webp"},
-                     { src: "/images/sl6.webp"},
-                     { src: "/images/sl7.webp"},
-                     { src: "/images/sl8.webp"},
-                     { src: "/images/sl10.webp"},
-                     { src: "/images/sl11.webp"},
-
-            ],
-          },
-          {
             id: 2,
             title: "Master Bedroom",
             description:
