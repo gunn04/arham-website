@@ -21,7 +21,13 @@ export const sumitrankaProject={
                      { src: "/images/d2.webp"},
                      { src: "/images/d3.webp"},
                      { src: "/images/d4.webp"},
-                     { src: "/images/d5.webp"}
+                     { src: "/images/d5.webp"},
+                      { src: "/images/d6.webp"},
+                      { src: "/images/d7.webp"},
+                      { src: "/images/d8.webp"},
+                      { src: "/images/d9.webp"},
+                      { src: "/images/d10.webp"},
+                      { src: "/images/d11.webp"},
                      
                      ],
           },
