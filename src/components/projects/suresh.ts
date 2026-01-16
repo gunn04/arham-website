@@ -3,7 +3,7 @@ import type { RenderGroup } from "../ProjectPage"
 export const SureshProject={
         title: "Mr. Suresh Jain Residence",
         overview:
-          "A modern luxury 3BHK residence blending elegance, comfort, and functionality.",
+          "",
         info: {
           client: "Mr. Suresh Jain",
           projectType: "Residential",

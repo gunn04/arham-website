@@ -2,7 +2,7 @@ import type { RenderGroup } from "../ProjectPage";
 
 export const niteshProject = {
   title: "Mr. Nitesh Malani Residence",
-  overview: "A sophisticated corporate-style residence with warmth and luxury.",
+  overview: "",
   info: {
           client: "Mr. Nitesh Malani",
           projectType: "Residential",

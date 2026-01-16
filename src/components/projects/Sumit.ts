@@ -3,7 +3,7 @@ import type { RenderGroup } from "../ProjectPage"
 export const sumitrankaProject={
         title: "Mr. Sachin Ranka Residence",
         overview:
-          "A modern luxury 3BHK residence blending elegance, comfort, and functionality.",
+          "",
         info: {
           client: "Mr. SumitRanka",
           projectType: "Residential",
