@@ -41,7 +41,7 @@ const OurProjects = ({ onProjectClick }: OurProjectsProps) => {
      {
       id: 3,
       title: "Mr. Sumit Ranka",
-      image: "/images/du5.webp",
+      image: "/images/d5.webp",
       projectData: sumitrankaProject,
     },
     {
