@@ -72,11 +72,6 @@
   
   html {
     scroll-behavior: smooth;
-    overflow-x: hidden;
-  }
-  
-  body {
-    overflow-x: hidden;
   }
 }
 
@@ -244,12 +239,6 @@ section {
     animation-duration: 22s; /* 🔥 faster = smaller number */
   }
 }
-@media (max-width: 768px) {
-  body {
-    overscroll-behavior: none;
-  }
-}
-
 /* ============================= */
 /* GLOBAL LUXURY RHYTHM FIX */
 /* ============================= */
